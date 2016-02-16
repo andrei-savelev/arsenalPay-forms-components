@@ -20,6 +20,6 @@
     "tests"
   ],
   "devDependencies": {
-    "ap-ui-sass": "ap-ui-base#*"
+    "ap-ui-sass": "ap-ui#*"
   }
 }

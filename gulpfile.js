@@ -1,25 +1,36 @@
 const gulp = require('gulp');
 const jade = require('gulp-jade');
 const sass = require('gulp-sass');
+const gulpIf = require('gulp-if');
+const sourcemaps = require('gulp-sourcemaps');
+const cssmin = require('gulp-cssnano');
+const plumber = require('gulp-plumber');
 const postcss = require('gulp-postcss');
-const autoprefixer = require('autoprefixer');
+const prefixer = require('autoprefixer');
 const browserify = require('browserify');
 const babelify = require('babelify');
 const browserSync = require('browser-sync');
-const gulpConfig = require('config.gulp');
+const gulpConfig = require('./config.gulp');
+const gutil = require('gulp-util');
+const reload = browserSync.reload;
+const source = require('vinyl-source-stream');
+
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 // run server
 gulp.task('webserver', function () {
-    browserSync(gulpConfig.browserSyncConfig);
+    browserSync( gulpConfig.browserSyncConfig );
 });
 
-gulp.task('build:js', function (done) {
+gulp.task('js:build', function (done) {
     browserify({entries: gulpConfig.src.js, extensions: ['.jsx'], debug: true})
         .transform('babelify', {presets: ['es2015', 'react']})
         .bundle()
-        .on('error',gutil.log)
-        .pipe(source('bundle.js'))
-        .pipe(gulp.dest(gulpConfig.build.js));
+        .pipe(plumber())
+        .pipe( source('bundle.js') )
+        .pipe(plumber.stop())
+        .pipe( gulp.dest(gulpConfig.build.js) )
+        .pipe( reload({stream: true}) );
     done()
 });
 
@@ -27,10 +38,11 @@ gulp.task('style:build', function (done) {
     gulp.src(gulpConfig.src.style)
         .pipe(plumber())
         .pipe(sass())
-        .on('error',gutil.log)
-        .pipe(postcss( prefixer({
-            browsers: ['last 2 versions']
-        }) ))
+        .pipe(postcss([
+            prefixer({
+                browsers: ['last 2 versions']
+            })
+        ]))
         .pipe(cssmin())
         .pipe(plumber.stop())
         .pipe(gulp.dest(gulpConfig.build.css))
@@ -38,15 +50,16 @@ gulp.task('style:build', function (done) {
     done();
 });
 
-gulp.task('build:html', function(done) {
+gulp.task('html:build', function(done) {
     var YOUR_LOCALS = {};
 
-    gulp.src(gulpConfig.src.html)
+    gulp.src( gulpConfig.src.html )
         .pipe(jade({
             locals: YOUR_LOCALS
         }))
         .on('error',gutil.log)
-        .pipe(gulp.dest(gulpConfig.build.html));
+        .pipe( gulp.dest(gulpConfig.build.html) )
+        .pipe( reload({stream: true}) );
     done();
 });
 

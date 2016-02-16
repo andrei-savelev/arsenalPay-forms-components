@@ -16,7 +16,7 @@ module.exports = {
     },
 
     src: {
-        js: 'src/js/app.jsx',
+        js: 'src/js/main.jsx',
         style: 'src/styles/**/*.scss',
         html: 'src/*.jade'
     },
