@@ -1,1 +1,378 @@
-@import "../../bower_components/ap-ui-sass/src/ap-ui";
+/*@import "../../bower_components/ap-ui-sass/src/ap-ui";*/
+@import "../../bower_components/normalize.sass/normalize";
+
+$toolTipBg: #80A8B3;
+$fieldColor: #505050;
+$defaultBorderColor: #aaaaaa;
+$captionColor: #727272;
+$helpColor: #D7D7D7;
+
+$textColor: #4e4e4e;
+$brandColor: #e15f19;
+$panelBg: #eeeeee;
+$panelBgAccent: #afafaf;
+
+$labelColor: #646464;
+
+@mixin link($color) {
+  border-bottom: 1px solid $color;
+  text-decoration: none;
+  color: $color;
+
+  &:hover {
+    border-bottom: 1px solid transparent;
+  }
+
+  &:focus,
+  &:active {
+    border-bottom: 1px solid $color;
+    text-decoration: none;
+    color: darken($color, 10%);
+  }
+}
+
+@mixin btn($color, $bgColor, $borderColor) {
+  display: block;
+  padding: 14px 15px;
+  width: 100%;
+  border-radius: 2px;
+  background-color: $bgColor;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
+  border: solid 1px $borderColor;
+  text-align: center;
+  color: $color;
+  font-size: 17px;
+  line-height: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  appearance: none;
+
+  &:hover {
+    background-color: darken($bgColor, 5%);
+  }
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+body {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Common styles */
+.ap-ui {
+
+  &__container {
+    margin: 24px auto;
+    width: 300px;
+    line-height: 1.3;
+    color: $textColor;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    * {
+      box-sizing: border-box;
+
+      &::before,
+      &::after {
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  &__header {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 17px;
+    color: $brandColor;
+  }
+
+  &__caption {
+    margin-bottom: 21px;
+    color: $textColor;
+    font-size: 14px;
+    //line-height: 17px;
+
+    ._hide {
+      display: none;
+    }
+
+    a {
+      @include link($brandColor)
+    }
+  }
+
+  &__btn-default {
+    @include btn(white, $brandColor, $brandColor);
+    margin-bottom: 37px;
+
+    &._link {
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: white;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__btn-fail {
+    @include btn($brandColor, white, #d7d7d7);
+    display: none;
+    margin-top: 15px;
+
+    &._show {
+      display: block;
+    }
+  }
+
+  &__panel {
+    margin-bottom: 37px;
+    border-radius: 2px;
+    background-color: $panelBg;
+    font-size: 15px;
+
+    &-body {
+      padding-left: 8px;
+      padding-right: 8px;
+
+      p {
+        &:first-child {
+          padding-top: 7px;
+        }
+
+        &:last-child {
+          margin-bottom: 8px;
+        }
+      }
+    }
+
+    &-btn {
+      position: relative;
+      padding: 6px 0;
+      display: block;
+      width: 100%;
+      border-radius: 2px;
+      background-color: $panelBgAccent;
+      text-align: center;
+      font-weight: 600;
+      color: white;
+      text-decoration: none;
+
+      &::before {
+        position: absolute;
+        left: 9px;
+        bottom: 6px;
+        width: 0;
+        height: 0;
+        content: "";
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid white;
+      }
+
+      &:hover {
+        background-color: #9A9898;
+      }
+
+      &:focus,
+      &:active {
+        outline: none;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__footer {
+    &-copyright {
+      display: inline-block;
+
+      small {
+        margin-bottom: -3px;
+        display: block;
+        font-size: 8px;
+      }
+
+      a {
+        @include link($brandColor);
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+
+    &-img {
+      position: relative;
+      float: right;
+      bottom: -1px;
+      vertical-align: bottom;
+      display: inline-block;
+      max-width: 100%;
+      width: 175px;
+    }
+  }
+}
+
+.field-row {
+  position: relative;
+  margin-bottom: 16px;
+
+  &:last-of-type {
+    margin-bottom: 40px;
+  }
+
+  &__label {
+    display: inline-block;
+    max-width: 100%;
+    font-weight: 400;
+    font-size: 14px;
+    color: $labelColor;
+    cursor: pointer;
+  }
+
+  .flex-input-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  &__input {
+    display: block;
+    padding-left: 42px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100%;
+    outline: none;
+    border-radius: 1px;
+    border: 1px solid #aaaaaa;
+    background-position: 13px center;
+    background-size: 15px auto;
+    background-repeat: no-repeat;
+    font-size: 15px;
+    color: $textColor;
+    transition: border-color, box-shadow .15s ease-in-out;
+
+    &._phone {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: auto;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAWCAMAAADgvdz9AAAAFVBMVEUAAADkbQDlbwbkbwfkcAfkcAblcAdfkMTOAAAABnRSTlMAHKa25u20+nPGAAAAQElEQVR42s3SsRUAIAwCUYjx9h9ZB5CX1t9eCZKreeryrZtoW8WynrwoNVZgWqAI5pz9nhV9nYdBhzsMZxqueABDZwfJMS8CIgAAAABJRU5ErkJggg==');
+    }
+
+    &._account {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAWCAMAAADgvdz9AAAAFVBMVEUAAADkbQDlbwbkbwfkcAfkcAblcAdfkMTOAAAABnRSTlMAHKa25u20+nPGAAAAQElEQVR42s3SsRUAIAwCUYjx9h9ZB5CX1t9eCZKreeryrZtoW8WynrwoNVZgWqAI5pz9nhV9nYdBhzsMZxqueABDZwfJMS8CIgAAAABJRU5ErkJggg==');
+    }
+
+    &._amount {
+      background-size: 9px auto;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAYCAMAAADAi10DAAAArlBMVEUAAACAAADVVQDMZgDbWwDdZgDPYADcaADWZgDcagDdZgDYaQDcaQDdZwDZaADdawTcagTdaQPbawPcaAPbawPcaQPbagLcaQLbaQLcagLbawLdagLcagTcaQTcagTbawTcawPcagPcawPcagPdagPbawPcagPcagPdagPcagPdagTcagTdagTdawTcagTcawPdawPdagPdagPcagPdawPdagPcawPcawPdagPdawRRNMPNAAAAOXRSTlMAAgYKDg8QFhkdHiczNDZDSEtPUWJmam1yc3p/goqLj5KYmZqdnp+mtLzKzNHS0+rt7vDz9vf4+/62I01NAAAAh0lEQVR4AaXPRw7CQBSDYYdeEvrQ+9B7J77/xXgKSDBPbBD/8pO8MAA+u+5Xtuwhih9tgxdBiiXyleGRl9KbopJzHjIuwVuyqwhFbjSleNIU51lTwJ2mCfuKauEt51B2SjYA3yeNMfVmZ7Ym7y31MFwUII0taaVRr11NQ1IffyG6Db6THv5BD88MID4CnBz6AAAAAElFTkSuQmCC');
+    }
+
+    &:focus {
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22);
+    }
+  }
+
+  .input-help {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-left: -1px;
+    width: 18%;
+    border-radius: 0 1px;
+    border: 1px solid $defaultBorderColor;
+    color: $captionColor;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lighten($defaultBorderColor, 30%);
+    }
+  }
+
+  &__error {
+    display: none;
+    opacity: 0;
+    position: relative;
+    margin-top: 8px;
+    padding: 8px 9px;
+    width: 100%;
+    border-radius: 2px;
+    background-color: $toolTipBg;
+    color: white;
+    font-size: 14px;
+    line-height: 16px;
+    transition: opacity .5s;
+
+    &._show {
+      display: block;
+    }
+
+    &._visible {
+      opacity: 1;
+    }
+
+    &._help {
+      display: block;
+      position: relative;
+      background-color: $helpColor;
+      color: $fieldColor;
+
+      &::before {
+        border-color: transparent transparent $helpColor;
+        left: auto;
+        right: 15px;
+      }
+    }
+
+    &::before {
+      position: absolute;
+      top: -8px;
+      left: 15px;
+      height: 0;
+      border-color: transparent transparent $toolTipBg transparent;
+      border-style: solid;
+      border-width: 1px 7px 8px;
+      content: '';
+    }
+  }
+}
+
+.submit-btn {
+  display: block;
+  margin-top: 40px;
+  padding: 14px 15px;
+  width: 100%;
+  border: 1px solid lighten($brandColor, 5%);
+  background-color: $brandColor;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.49);
+  color: white;
+  font-size: 16px;
+  line-height: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+
+  &:hover {
+    background-color: darken($brandColor, 5%);
+  }
+}
+
+/*Help*/
+.centered {
+  text-align: center;
+}

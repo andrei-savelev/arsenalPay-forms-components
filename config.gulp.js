@@ -3,7 +3,7 @@ module.exports = {
         server: {
             baseDir: "./dist"
         },
-        tunnel: true,
+        tunnel: false,
         host: 'localhost',
         port: 9300,
         logPrefix: "Frontend_Build"

@@ -21,5 +21,8 @@
   ],
   "devDependencies": {
     "ap-ui-sass": "ap-ui#*"
+  },
+  "dependencies": {
+    "normalize.sass": "^3.0.0"
   }
 }
