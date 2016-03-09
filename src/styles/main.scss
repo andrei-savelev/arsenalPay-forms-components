@@ -263,11 +263,16 @@ body {
     color: $textColor;
     transition: border-color, box-shadow .15s ease-in-out;
 
+    &._card {
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAWCAMAAADgvdz9AAAAFVBMVEUAAADkbQDlbwbkbwfkcAfkcAblcAdfkMTOAAAABnRSTlMAHKa25u20+nPGAAAAQElEQVR42s3SsRUAIAwCUYjx9h9ZB5CX1t9eCZKreeryrZtoW8WynrwoNVZgWqAI5pz9nhV9nYdBhzsMZxqueABDZwfJMS8CIgAAAABJRU5ErkJggg==');
+    }
+
     &._phone {
       order: 0;
       flex: 0 1 auto;
       align-self: auto;
       background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAWCAMAAADgvdz9AAAAFVBMVEUAAADkbQDlbwbkbwfkcAfkcAblcAdfkMTOAAAABnRSTlMAHKa25u20+nPGAAAAQElEQVR42s3SsRUAIAwCUYjx9h9ZB5CX1t9eCZKreeryrZtoW8WynrwoNVZgWqAI5pz9nhV9nYdBhzsMZxqueABDZwfJMS8CIgAAAABJRU5ErkJggg==');
+      padding-left: 63px;
     }
 
     &._account {
@@ -282,6 +287,13 @@ body {
     &:focus {
       box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22);
     }
+  }
+
+  &__phone-start-symbol {
+    position: absolute;
+    left: 43px;
+    top: 30px;
+    font-size: 15px;
   }
 
   .input-help {
