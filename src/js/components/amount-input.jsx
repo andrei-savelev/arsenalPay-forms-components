@@ -10,8 +10,17 @@ let MaskPlugin = require('jquery-mask-plugin');
 let AmountInput = React.createClass({
     getInitialState() {
         return {
-            amountState: ''
+            state: 'empty',
+            value: ''
         }
+    },
+
+    componentWillMount() {
+        this.props.attachToForm(this);
+    },
+
+    componentWillUnmount() {
+        this.props.detachFromForm(this);
     },
 
     render() {
@@ -25,9 +34,9 @@ let AmountInput = React.createClass({
                        tabIndex="3"
                        placeholder="100"
                        className="field-row__input _amount js-amount-input"
-                       onBlur={this._amountOnBlur}
+                       onBlur={this._validate}
                        ref={ (ref) => {this._amountInput = ref} }
-                       data-state={this.state.amountState}/>
+                       data-state={this.state.state}/>
 
                 {<InfoTooltip ref={ (ref) => {this._amountInputTooltip = ref} }  />}
             </div>
@@ -50,17 +59,23 @@ let AmountInput = React.createClass({
 
                 !_.isEmpty(cep) && ( trueValueLength = utils.getOnlyNumbers(cep).length );
 
-                if ( Number( String(numericValue).charAt(0) ) == 0 ) {
-                    self.setState({amountState: 'startZero'});
-                } else if ( numericValue < 60 ) {
-                    self.setState({amountState: 'minAmountError'});
-                    //utils.showInfoTooltip($amountInputTooltip, 'error', utils.messageTexts.minAmount);
+                if ( numericValue < 60 ) {
+                    this.setState( {
+                        state: 'minAmountError'
+                    } );
+
                 } else if (numericValue > 75000) {
-                    self.setState({amountState: 'maxAmountError'});
-                    //utils.showInfoTooltip($amountInputTooltip, 'error', utils.messageTexts.maxAmount);
+                    this.setState( {
+                        state: 'maxAmountError'
+                    } );
+
                 } else if ( numericValue > 60 && numericValue < 75000 ) {
-                    self.setState({amountState: 'correct'});
-                    utils.hideInfoTooltip($amountInputTooltip);
+                    this.setState( {
+                        state: 'correct',
+                        value: cep
+                    } );
+
+                    utils.hideInfoTooltip( $amountInputTooltip );
                 }
 
                 if (trueValueLength <= 3) {
@@ -72,23 +87,35 @@ let AmountInput = React.createClass({
                 }
 
                 $(field).mask(mask, options);
-            }
+            }.bind(this)
         });
     },
 
     /**
      * Events
      */
-    _amountOnBlur(event) {
+    _validate() {
         var $amountInputTooltip = $( ReactDOM.findDOMNode(this._amountInputTooltip) );
 
-        switch (this.state.amountState) {
-            case 'minAmountError':
-                utils.showInfoTooltip($amountInputTooltip, 'error', utils.messageTexts.minAmount);
-                break;
-            case 'maxAmountState':
-                utils.showInfoTooltip($amountInputTooltip, 'error', utils.messageTexts.maxAmount);
-                break;
+        if ( _.isEmpty( this._amountInput.value ) ) {
+            utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.emptyAmount );
+
+        } else {
+
+            switch ( this.state.state ) {
+                case 'minAmountError':
+                    utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.minAmount );
+                    break;
+                case 'maxAmountError':
+                    utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.maxAmount );
+                    break;
+                case 'correct':
+                    utils.hideInfoTooltip( $amountInputTooltip );
+
+                    this.setState({
+                        value: this._amountInput.value
+                    });
+            }
         }
     }
 });
