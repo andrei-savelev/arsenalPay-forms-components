@@ -10,8 +10,17 @@ let MaskPlugin = require('jquery-mask-plugin');
 let PhoneInput = React.createClass({
     getInitialState() {
         return {
-            phoneState: ''
+            state: 'empty',
+            value: ''
         }
+    },
+
+    componentWillMount() {
+        this.props.attachToForm(this);
+    },
+
+    componentWillUnmount() {
+        this.props.detachFromForm(this);
     },
 
     render() {
@@ -24,13 +33,13 @@ let PhoneInput = React.createClass({
                 <div className="flex-input-container js-phone-input-container">
                     <input type="tel"
                            id="phone-input"
-                           name="PHONE"
+                           name={ this.props.name }
                            autoComplete="off"
                            tabIndex="1"
                            placeholder="(___) ___ __ __"
                            className="field-row__input _phone js-phone-input"
-                           onBlur={this._phoneOnBlur}
-                           data-state={this.state.phoneState}
+                           onBlur={ this._validate }
+                           data-state={ this.state.phoneState }
                            ref={ (ref) => {this._phoneInput = ref} }/>
 
                     <div className="input-help js-input-help"
@@ -45,7 +54,7 @@ let PhoneInput = React.createClass({
     },
 
     componentDidMount() {
-        var $phoneInput = $( ReactDOM.findDOMNode(this._phoneInput) ),
+        var $phoneInput = $( ReactDOM.findDOMNode( this._phoneInput ) ),
             $infoTooltip = $( ReactDOM.findDOMNode( this._infoTooltipPhone ) ),
             self = this;
 
@@ -57,33 +66,40 @@ let PhoneInput = React.createClass({
                 !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
 
                 if (_.isEmpty(cep)) {
-                    self.setState( {phoneState: 'empty'} );
+                    this.setState( {state: 'empty'} );
 
                 } else if ( trueValueLength !== 10 ) {
-                    self.setState( {phoneState: 'minPhoneLength'} );
+                    this.setState( {state: 'minPhoneLength'} );
 
                 } else if ( Number( String(numericValue).charAt(0) ) !== 9 ) {
-                    self.setState( {phoneState: 'invalidFirstSymbol'} );
+                    this.setState( {state: 'invalidFirstSymbol'} );
                 } else {
-                    self.setState( {phoneState: 'correct'} );
+                    this.setState( {
+                        state: 'correct',
+                        value: cep
+                    });
                 }
 
-            },
+            }.bind(this),
 
             /*onInvalid: function (val, err, field, invalid, options) {
                 utils.showInfoTooltip($infoTooltip, 'error', 'Не правильно указан номер');
             },*/
 
-            onComplete: function () {
-                utils.hideInfoTooltip($infoTooltip)
-            }
+            onComplete: function ( cep ) {
+                this.setState({
+                    value: utils.getOnlyNumbers( cep )
+                });
+
+                utils.hideInfoTooltip( $infoTooltip );
+            }.bind(this)
         });
 
-        $(this._infoToggler).on('click', function (event) {
-            utils.showInfoTooltip($infoTooltip, 'info', utils.messageTexts.availableOperators);
+        $(this._infoToggler).on('click', function ( event ) {
+            utils.showInfoTooltip( $infoTooltip, 'info', utils.messageTexts.availableOperators );
 
-            if ( !$infoTooltip.hasClass('_help') ) {
-                $phoneInput.trigger('focus');
+            if ( !$infoTooltip.hasClass( '_help' ) ) {
+                $phoneInput.trigger( 'focus' );
             }
         })
     },
@@ -93,18 +109,27 @@ let PhoneInput = React.createClass({
      * @param event
      * @private
      */
-    _phoneOnBlur(event) {
+    _validate() {
         var $infoTooltip = $( ReactDOM.findDOMNode( this._infoTooltipPhone ) );
 
-        switch ( this.state.phoneState ) {
+        switch ( this.state.state ) {
             case 'empty':
-                utils.showInfoTooltip($infoTooltip, 'error', utils.messageTexts.emptyPhone);
+                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.emptyPhone );
                 break;
             case 'minPhoneLength':
-                utils.showInfoTooltip($infoTooltip, 'error', utils.messageTexts.minPhoneLength);
+                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.minPhoneLength );
                 break;
             case 'invalidFirstSymbol':
-                utils.showInfoTooltip($infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol);
+                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol );
+                break;
+            case 'correct':
+                utils.hideInfoTooltip( $infoTooltip );
+
+                this.setState({
+                    value: utils.getOnlyNumbers( this._phoneInput.value )
+                });
+
+                break;
         }
     }
 });
