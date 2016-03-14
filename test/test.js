@@ -25,7 +25,7 @@ describe('UTILS >', function(){
                 value: 'test'
             };
 
-            expect( utils.upperCase(target) ).to.equal( 'TEST' )
+            expect( utils.upperCase(target.value) ).to.equal( 'TEST' )
         })
     });
 
@@ -45,7 +45,7 @@ describe('UTILS >', function(){
 
     describe('luhnCheck > ', function () {
         it('method exist', function () {
-            assert(utils.luhnCheck);
+            assert( utils.luhnCheck );
         });
 
         it('luhn test should be passed', function () {

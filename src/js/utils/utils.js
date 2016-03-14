@@ -81,9 +81,8 @@ function _getOnlyNumbers(value) {
  * @returns {string}
  * @private
  */
-function _upperCase(target) {
-    var value = target.value;
-    return _.trim( target.value = value.toUpperCase() );
+function _upperCase(value) {
+    return _.trim( value.toUpperCase() );
 }
 
 /**
@@ -118,7 +117,8 @@ function _cardFromNumber (num) {
         len2,
         p,
         pattern,
-        ref;
+        ref,
+        result;
 
     num = (num + '').replace(/\D/g, '');
 
@@ -131,10 +131,12 @@ function _cardFromNumber (num) {
             p = pattern + '';
 
             if (num.substr(0, p.length) === p) {
-                return card;
+                result = card;
             }
         }
     }
+
+    return result || {};
 }
 
 function _luhnCheck (num) {
@@ -181,7 +183,8 @@ var utils = {
      */
     messageTexts: {
         onlyNumbersAccepted: 'Допускается ввод только цифр от 0 - 9',
-        typeAmount: 'Введите сумму оплаты',
+        emptyAmount: 'Введите сумму оплаты',
+        emptyAccount: 'Поле не заполнено',
         maxAmount: 'Максимальная сумма возможного платежа 75000 руб',
         minAmount: 'Минимальная сумма для оплаты 60 руб',
         emptyPhone: 'Введите номер телефона',
