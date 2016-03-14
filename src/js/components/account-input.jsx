@@ -6,6 +6,21 @@ import utils from '../utils/utils';
 window.$ = window.jQuery = require('jquery');
 
 let AccountInput = React.createClass({
+    getInitialState() {
+      return {
+          state: 'empty',
+          value: ''
+      }
+    },
+
+    componentWillMount() {
+        this.props.attachToForm(this);
+    },
+
+    componentWillUnmount() {
+        this.props.detachFromForm(this);
+    },
+
     render() {
         return (
             <div className="field-row">
@@ -17,19 +32,39 @@ let AccountInput = React.createClass({
                        tabIndex="2"
                        placeholder="Например, ATK3787"
                        className="field-row__input _account js-account-id-input"
-                       ref={ (ref) => { this._accountInput = ref } } onChange={this._upperCase}/>
-                {<InfoTooltip />}
+                       ref={ (ref) => { this._accountInput = ref } }
+                       onChange={ this._onChangeHandler }
+                       onBlur={ this._validate }
+                       value={ this.state.value } />
+                {<InfoTooltip ref={ (ref) => { this._accountInputTooltip = ref } } />}
             </div>
         );
     },
 
-    componentDidMount() {
-        /*var $accountInput = $( ReactDOM.findDOMNode(this._accountInput) );*/
+    _onChangeHandler( event ) {
+        var $inputTooltip = $( ReactDOM.findDOMNode( this._accountInputTooltip ) );
+
+        var _value = event.currentTarget.value;
+
+        this.setState({
+            value: utils.upperCase( _value )
+        });
+
+        if ( _value.length > 5 ) {
+            this.setState({
+                state: 'correct'
+            });
+
+            utils.hideInfoTooltip( $inputTooltip );
+        }
     },
 
-    _upperCase(event) {
-        var target = $(event.target);
-        utils.upperCase(target);
+    _validate() {
+        var $inputTooltip = $( ReactDOM.findDOMNode( this._accountInputTooltip ) );
+
+        if ( this.state.state !== 'correct' ) {
+            utils.showInfoTooltip( $inputTooltip, 'error', utils.messageTexts.emptyAccount );
+        }
     }
 });
 
