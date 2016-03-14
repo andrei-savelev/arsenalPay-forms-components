@@ -68,11 +68,11 @@ let CardInput = React.createClass({
      * @private
      */
     _cardOnChange(event) {
-        var card = utils.getCard( event.target.value );
+        var cardInputValue = event.target.value;
 
         this.setState({
-            cardType: card.type,
-            expectCardValueLength: card.cardLength
+            cardType: utils.getCard( cardInputValue ).type,
+            expectCardValueLength: utils.getCard( cardInputValue ).cardLength
         });
     },
 
