@@ -1,37 +1,52 @@
-const gulp = require('gulp');
-const jade = require('gulp-jade');
-const sass = require('gulp-sass');
-const gulpIf = require('gulp-if');
-const sourcemaps = require('gulp-sourcemaps');
-const cssmin = require('gulp-cssnano');
-const plumber = require('gulp-plumber');
-const postcss = require('gulp-postcss');
-const prefixer = require('autoprefixer');
-const browserify = require('browserify');
-const babelify = require('babelify');
+const es          = require('event-stream');
+const gulp        = require('gulp');
+const jade        = require('gulp-jade');
+const sass        = require('gulp-sass');
+const gutil       = require('gulp-util');
+const rename      = require('gulp-rename');
+const source      = require('vinyl-source-stream');
+const gulpIf      = require('gulp-if');
+const uglify      = require('gulp-uglify');
+const cssmin      = require('gulp-cssnano');
+const plumber     = require('gulp-plumber');
+const postcss     = require('gulp-postcss');
+const prefixer    = require('autoprefixer');
+const babelify    = require('babelify');
+const gulpConfig  = require('./config.gulp');
+const browserify  = require('browserify');
+const sourcemaps  = require('gulp-sourcemaps');
 const browserSync = require('browser-sync');
-const gulpConfig = require('./config.gulp');
-const gutil = require('gulp-util');
-const reload = browserSync.reload;
-const source = require('vinyl-source-stream');
-
-const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
+const reload      = browserSync.reload;
 
 // run server
 gulp.task('webserver', function () {
     browserSync( gulpConfig.browserSyncConfig );
 });
 
-gulp.task('js:build', function (done) {
-    browserify({entries: gulpConfig.src.js, extensions: ['.jsx'], debug: true})
-        .transform('babelify', {presets: ['es2015', 'react']})
-        .bundle()
-        .pipe(plumber())
-        .pipe( source('bundle.js') )
-        .pipe(plumber.stop())
-        .pipe( gulp.dest(gulpConfig.build.js) )
-        .pipe( reload({stream: true}) );
-    done()
+gulp.task('js:build', function () {
+    var files = gulpConfig.src.js;
+
+    var tasks = files.map(function (entry) {
+        var outputFile = entry.split('/').pop();
+
+        return browserify({
+            entries: entry,
+            extensions: ['.jsx'],
+            debug: true
+        }).transform( 'babelify', {presets: ['es2015', 'react']} )
+            .bundle()
+            .pipe( plumber() )
+            .pipe( source(outputFile) )
+            .pipe(rename({
+                extname: '.bundle.js'
+            }))
+            .pipe( plumber.stop() )
+            .pipe( uglify() )
+            .pipe( gulp.dest(gulpConfig.build.js) )
+            .pipe( reload( {stream: true} ) );
+    });
+
+    return es.merge.apply(null, tasks);
 });
 
 gulp.task('style:build', function (done) {
