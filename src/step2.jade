@@ -2,3 +2,26 @@ doctype html
 include jade-templates/head
 
     body
+        main
+            section.ap-ui__container
+                h1.ap-ui__header
+
+                // Caption
+                section.ap-ui__caption
+                    p Вам выслано смс для подтверждения платежа
+                    p.js-timer-container Смс придет в течении
+                        span.js-timer 1:59
+                    button.ap-ui__btn-fail.js-btn-fail Мне не пришло смс
+
+                // Panel
+                section.ap-ui__panel
+                    header.ap-ui__panel-body
+                        p +7 (914) 000 00 00
+                        p
+                            strong 1 500 руб
+                    a(href="#").ap-ui__panel-btn Назад
+
+                // footer
+                section#js-react-result-footer
+
+        script(src="assets/js/footer-wo-card-secure.js")

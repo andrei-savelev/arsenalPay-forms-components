@@ -30,7 +30,8 @@ let PhoneInput = React.createClass({
                 <span className="field-row__phone-start-symbol">
                     +7
                 </span>
-                <div className="flex-input-container js-phone-input-container">
+                <div className="flex-input-container js-phone-input-container"
+                     ref={(ref) => {this._inputFieldWrapper = ref}}>
                     <input type="tel"
                            id="phone-input"
                            name={ this.props.name }
@@ -38,12 +39,13 @@ let PhoneInput = React.createClass({
                            tabIndex="1"
                            placeholder="(___) ___ __ __"
                            className="field-row__input _phone js-phone-input"
-                           onBlur={ this._validate }
-                           data-state={ this.state.phoneState }
-                           ref={ (ref) => {this._phoneInput = ref} }/>
+                           onBlur={this._onBlurHandler}
+                           onFocus={this._onFocusHandler}
+                           data-state={ this.state.state }
+                           ref={(ref) => {this._phoneInput = ref}}/>
 
                     <div className="input-help js-input-help"
-                         ref={ (ref) => {this._infoToggler = ref} }>
+                         ref={(ref) => {this._infoToggler = ref}}>
                         ?
                     </div>
                 </div>
@@ -54,11 +56,10 @@ let PhoneInput = React.createClass({
     },
 
     componentDidMount() {
-        var $phoneInput = $( ReactDOM.findDOMNode( this._phoneInput ) ),
-            $infoTooltip = $( ReactDOM.findDOMNode( this._infoTooltipPhone ) ),
-            self = this;
+        var $phoneInput = $(ReactDOM.findDOMNode(this._phoneInput));
+        var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
 
-        $phoneInput.mask('(000) 000 00 00', {
+        $phoneInput.mask('(000) 000-00-00', {
             onKeyPress: function (cep, err, field, options) {
                 var numericValue = utils.getOnlyNumbers(cep),
                     trueValueLength = null;
@@ -66,7 +67,7 @@ let PhoneInput = React.createClass({
                 !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
 
                 if (_.isEmpty(cep)) {
-                    this.setState( {state: 'empty'} );
+                    this.setState({ state: 'empty' });
 
                 } else if ( trueValueLength !== 10 ) {
                     this.setState( {state: 'minPhoneLength'} );
@@ -105,30 +106,86 @@ let PhoneInput = React.createClass({
     },
 
     /**
-     * Проверка на корректность заполенности поля с номером телефона
+     * Проверка на корректность заполенности поля по событию onBlur
      * @param event
      * @private
      */
-    _validate() {
-        var $infoTooltip = $( ReactDOM.findDOMNode( this._infoTooltipPhone ) );
+    _onBlurHandler(event) {
+        var $infoTooltip = $(ReactDOM.findDOMNode( this._infoTooltipPhone ) );
+        var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
+        var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
 
         switch ( this.state.state ) {
-            case 'empty':
-                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.emptyPhone );
-                break;
             case 'minPhoneLength':
+                $targetElement.addClass('invalid-value');
+                $infoToggler.addClass('invalid-value');
                 utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.minPhoneLength );
                 break;
+
             case 'invalidFirstSymbol':
+                $targetElement.addClass('invalid-value');
+                $infoToggler.addClass('invalid-value');
                 utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol );
                 break;
+
             case 'correct':
+                $targetElement.removeClass('invalid-value');
+                $infoToggler.removeClass('invalid-value');
                 utils.hideInfoTooltip( $infoTooltip );
 
                 this.setState({
                     value: utils.getOnlyNumbers( this._phoneInput.value )
                 });
+                break;
+        }
+    },
 
+    /**
+     * Обработка события onFocus
+     * @private
+     */
+    _onFocusHandler(event) {
+        var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
+        var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
+        var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
+
+        $targetElement.removeClass('invalid-value');
+        $infoToggler.removeClass('invalid-value');
+        utils.hideInfoTooltip($infoTooltip);
+    },
+
+    _validate() {
+        var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
+        var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
+        var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
+
+        switch ( this.state.state ) {
+            case 'empty':
+                $targetElement.addClass('invalid-value');
+                $infoToggler.addClass('invalid-value');
+                utils.showInfoTooltip($infoTooltip, 'error', utils.messageTexts.emptyPhone);
+                break;
+
+            case 'minPhoneLength':
+                $targetElement.addClass('invalid-value');
+                $infoToggler.addClass('invalid-value');
+                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.minPhoneLength );
+                break;
+
+            case 'invalidFirstSymbol':
+                $targetElement.addClass('invalid-value');
+                $infoToggler.addClass('invalid-value');
+                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol );
+                break;
+
+            case 'correct':
+                $targetElement.removeClass('invalid-value');
+                $infoToggler.removeClass('invalid-value');
+                utils.hideInfoTooltip( $infoTooltip );
+
+                this.setState({
+                    value: utils.getOnlyNumbers( this._phoneInput.value )
+                });
                 break;
         }
     }

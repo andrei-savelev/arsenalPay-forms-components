@@ -16,7 +16,7 @@ module.exports = {
     },
 
     src: {
-        js: ['src/js/main.jsx', 'src/js/components/phone-form.jsx'],
+        js: ['src/js/*.jsx'],
         style: 'src/styles/**/*.scss',
         html: 'src/*.jade'
     },

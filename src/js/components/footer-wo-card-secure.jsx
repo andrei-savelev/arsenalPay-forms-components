@@ -1,24 +1,19 @@
 import React from 'react';
 
-let imgFooter = require('../../assets/img/footer-features.png');
-
-let Footer = React.createClass({
+let FooterWOCardSecure = React.createClass({
     render() {
         return (
-            <footer className="ap-ui__footer">
+            <footer className="ap-ui__footer _wo-card-secure">
                 <span className="ap-ui__footer-copyright">
-                    <small>Powered by</small>
+                    <small className="ap-ui__footer-copyright__powered _is-inline">Powered by</small>
                     <a href="https://arsenalpay.ru">ArsenalPay</a>
                 </span>
-                <img src={imgFooter}
-                     alt="PCI DSS, Verified by Visa, MasterCard SecureCode"
-                     className="ap-ui__footer-img"
-                 />
             </footer>
         );
     }
 });
 
 
-export default Footer;
+export default FooterWOCardSecure;
+
 

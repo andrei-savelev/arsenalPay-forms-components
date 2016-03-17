@@ -1,7 +1,11 @@
-var expect = require('chai').expect;
 var assert = require('chai').assert;
 var should = require('chai').should;
 var utils = require('../src/js/utils/utils');
+
+import React from 'react';
+import { expect } from 'chai';
+import { shallow, mount, render } from 'enzyme';
+import Phone from '../src/js/components/phone-form.jsx';
 
 describe('UTILS >', function(){
     describe('getOnlyNumbers > ', function(){

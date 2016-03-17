@@ -34,7 +34,8 @@ let AmountInput = React.createClass({
                        tabIndex="3"
                        placeholder="100"
                        className="field-row__input _amount js-amount-input"
-                       onBlur={this._validate}
+                       onBlur={this._onBlurHandler}
+                       onFocus={this._onFocusHandler}
                        ref={ (ref) => {this._amountInput = ref} }
                        data-state={this.state.state}/>
 
@@ -57,9 +58,9 @@ let AmountInput = React.createClass({
                     trueValueLength = null,
                     mask = null;
 
-                !_.isEmpty(cep) && ( trueValueLength = utils.getOnlyNumbers(cep).length );
+                !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
 
-                if ( numericValue < 60 ) {
+                if (numericValue < 60) {
                     this.setState( {
                         state: 'minAmountError'
                     } );
@@ -69,13 +70,13 @@ let AmountInput = React.createClass({
                         state: 'maxAmountError'
                     } );
 
-                } else if ( numericValue > 60 && numericValue < 75000 ) {
-                    this.setState( {
+                } else if (numericValue > 60 && numericValue < 75000) {
+                    this.setState({
                         state: 'correct',
                         value: cep
-                    } );
+                    });
 
-                    utils.hideInfoTooltip( $amountInputTooltip );
+                    utils.hideInfoTooltip($amountInputTooltip);
                 }
 
                 if (trueValueLength <= 3) {
@@ -94,28 +95,68 @@ let AmountInput = React.createClass({
     /**
      * Events
      */
+    _onBlurHandler(event) {
+        var $amountInputTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
+        var $targetElement = $(event.currentTarget);
+
+        switch (this.state.state) {
+            case 'minAmountError':
+                $targetElement.addClass('invalid-value');
+                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.minAmount );
+                break;
+
+            case 'maxAmountError':
+                $targetElement.addClass('invalid-value');
+                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.maxAmount );
+                break;
+
+            case 'correct':
+                $targetElement.removeClass('invalid-value');
+                this.setState({
+                    value: this._amountInput.value
+                });
+
+                utils.hideInfoTooltip( $amountInputTooltip );
+                break;
+        }
+    },
+
+    _onFocusHandler(event) {
+        var $infoTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
+        var $targetElement = $(event.currentTarget);
+
+        $targetElement.removeClass('invalid-value');
+        utils.hideInfoTooltip($infoTooltip);
+    },
+
     _validate() {
-        var $amountInputTooltip = $( ReactDOM.findDOMNode(this._amountInputTooltip) );
+        var $amountInputTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
+        var $inputField = $(ReactDOM.findDOMNode(this._amountInput));
 
-        if ( _.isEmpty( this._amountInput.value ) ) {
-            utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.emptyAmount );
+        switch (this.state.state) {
+            case 'empty':
+                $inputField.addClass('invalid-value');
+                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.emptyAmount);
+                break;
 
-        } else {
+            case 'minAmountError':
+                $inputField.addClass('invalid-value');
+                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.minAmount );
+                break;
 
-            switch ( this.state.state ) {
-                case 'minAmountError':
-                    utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.minAmount );
-                    break;
-                case 'maxAmountError':
-                    utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.maxAmount );
-                    break;
-                case 'correct':
-                    utils.hideInfoTooltip( $amountInputTooltip );
+            case 'maxAmountError':
+                $inputField.addClass('invalid-value');
+                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.maxAmount );
+                break;
 
-                    this.setState({
-                        value: this._amountInput.value
-                    });
-            }
+            case 'correct':
+                $inputField.removeClass('invalid-value');
+                utils.hideInfoTooltip( $amountInputTooltip );
+
+                this.setState({
+                    value: this._amountInput.value
+                });
+                break;
         }
     }
 });

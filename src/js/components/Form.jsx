@@ -11,8 +11,8 @@ let Form = React.createClass({
             <div className="ap-ui__container">
                 <form action="/cgi-cred-bin/cgi_link"
                       method="post"
-                      className="js-pay-form" onSubmit={ this._onSubmitHandler }>
-                    { this.registerInputs( this.props.children ) }
+                      className="ap-ui__form js-pay-form" onSubmit={this._onSubmitHandler}>
+                    {this.registerInputs(this.props.children)}
                 </form>
             </div>
         );
@@ -32,7 +32,7 @@ let Form = React.createClass({
         }.bind(this));
     },
 
-    _attachToForm( component ) {
+    _attachToForm(component) {
         this._inputs[component.props.name] = component;
     },
 
@@ -45,25 +45,23 @@ let Form = React.createClass({
      * Submit handler
      */
     _onSubmitHandler(event) {
-
         event.preventDefault();
 
-        var componentsArray = Object.keys( this._inputs ),
-            componentsLength = componentsArray.length;
+        var componentsArray = Object.keys(this._inputs);
+        var componentsLength = componentsArray.length;
 
-        componentsArray.forEach( function ( componentName ) {
-            if ( this._inputs[ componentName ].state.state !== 'correct' ) {
-                this._inputs[ componentName ]._validate();
-                console.log('Invalid Field', componentName)
+        componentsArray.forEach(function (componentName) {
+            if (this._inputs[componentName].state.state !== 'correct') {
+                this._inputs[componentName]._validate();
             } else {
-                this._model[ componentName ] = this._inputs[ componentName ].state.value;
+                this._model[componentName] = this._inputs[componentName].state.value;
             }
-        }.bind(this) );
+        }.bind(this));
 
-        if ( Object.keys( this._model ).length !== componentsLength ) {
-            console.log( 'Не все поля заполенены верно', this._inputs );
+        if (Object.keys(this._model).length !== componentsLength) {
+            console.log('Не все поля заполенены верно', this._inputs);
         } else {
-            console.log( 'Hell YEAAAH!', this._model );
+            console.log('Hell YEAAAH!', this._model);
         }
     }
 });

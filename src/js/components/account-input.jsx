@@ -32,38 +32,83 @@ let AccountInput = React.createClass({
                        tabIndex="2"
                        placeholder="Например, ATK3787"
                        className="field-row__input _account js-account-id-input"
-                       ref={ (ref) => { this._accountInput = ref } }
-                       onChange={ this._onChangeHandler }
-                       onBlur={ this._validate }
+                       ref={(ref) => {this._accountInput = ref}}
+                       onChange={this._onChangeHandler}
+                       onBlur={this._onBlurHandler}
+                       onFocus={this._onFocusHandler}
                        value={ this.state.value } />
-                {<InfoTooltip ref={ (ref) => { this._accountInputTooltip = ref } } />}
+                {<InfoTooltip ref={ (ref) => {this._accountInputTooltip = ref}} />}
             </div>
         );
     },
 
-    _onChangeHandler( event ) {
-        var $inputTooltip = $( ReactDOM.findDOMNode( this._accountInputTooltip ) );
-
+    _onChangeHandler(event) {
+        var $inputTooltip = $(ReactDOM.findDOMNode(this._accountInputTooltip));
+        var $targetElement = $(event.currentTarget);
         var _value = event.currentTarget.value;
 
         this.setState({
-            value: utils.upperCase( _value )
+            value: utils.upperCase(_value)
         });
 
-        if ( _value.length > 5 ) {
+        if (_value.length > 5) {
             this.setState({
                 state: 'correct'
             });
 
-            utils.hideInfoTooltip( $inputTooltip );
+            $targetElement.removeClass('invalid-value');
+            utils.hideInfoTooltip($inputTooltip);
+        } else {
+            this.setState({
+                state: 'incorrect'
+            });
         }
     },
 
-    _validate() {
-        var $inputTooltip = $( ReactDOM.findDOMNode( this._accountInputTooltip ) );
+    _onBlurHandler(event) {
+        var $inputTooltip = $(ReactDOM.findDOMNode(this._accountInputTooltip));
+        var $targetElement = $(event.currentTarget);
 
-        if ( this.state.state !== 'correct' ) {
-            utils.showInfoTooltip( $inputTooltip, 'error', utils.messageTexts.emptyAccount );
+        switch (this.state.state) {
+            case 'empty':
+                break;
+
+            case 'correct':
+                $targetElement.removeClass('invalid-value');
+                utils.hideInfoTooltip($inputTooltip);
+                break;
+
+            default:
+                $targetElement.addClass('invalid-value');
+                utils.showInfoTooltip($inputTooltip, 'error', utils.messageTexts.incorrectAccount);
+        }
+    },
+
+    _onFocusHandler(event) {
+        var $inputTooltip = $(ReactDOM.findDOMNode(this._accountInputTooltip));
+
+        $(event.currentTarget).removeClass('invalid-value');
+        utils.hideInfoTooltip($inputTooltip);
+    },
+
+    _validate() {
+        var $inputTooltip = $(ReactDOM.findDOMNode(this._accountInputTooltip));
+        var $inputField = $(ReactDOM.findDOMNode(this._accountInput));
+
+        switch (this.state.state) {
+            case 'empty':
+                $($inputField).addClass('invalid-value');
+                utils.showInfoTooltip($inputTooltip, 'error', utils.messageTexts.emptyAccount);
+                break;
+
+            case 'correct':
+                $($inputField).removeClass('invalid-value');
+                utils.hideInfoTooltip($inputTooltip);
+                break;
+
+            default:
+                $($inputField).addClass('invalid-value');
+                utils.showInfoTooltip($inputTooltip, 'error', utils.messageTexts.incorrectAccount)
         }
     }
 });

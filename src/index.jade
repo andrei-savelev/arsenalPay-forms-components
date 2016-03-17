@@ -1,24 +1,18 @@
 doctype html
-html(class='no-js')
-    head
-        meta(charset='utf-8')
-        meta(http-equiv='X-UA-Compatible', content='IE=edge')
-
-        title
-
-        meta(name='description', content='')
-        meta(name='viewport', content='width=device-width, initial-scale=1')
-
-        link(rel='stylesheet', href='assets/css/main.css')
+include jade-templates/head
 
     body
-        h2.centered Карты
-        div#card
+        div.container
+            div.component-item
+                h2.centered Карты
+                div#card
 
-        h2.centered Телефоны
-        div#mk
+        div.component-item
+            h2.centered Телефоны
+            div#mk
 
-        h2.centered Кошельки
-        div#wallet
+        div.component-item
+            h2.centered Кошельки
+            div#wallet
 
-        script(src='assets/js/main.bundle.js')
+        script(src='assets/js/main.js')

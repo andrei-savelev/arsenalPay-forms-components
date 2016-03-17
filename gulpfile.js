@@ -1,52 +1,67 @@
-const es          = require('event-stream');
-const gulp        = require('gulp');
-const jade        = require('gulp-jade');
-const sass        = require('gulp-sass');
-const gutil       = require('gulp-util');
-const rename      = require('gulp-rename');
-const source      = require('vinyl-source-stream');
-const gulpIf      = require('gulp-if');
-const uglify      = require('gulp-uglify');
-const cssmin      = require('gulp-cssnano');
-const plumber     = require('gulp-plumber');
-const postcss     = require('gulp-postcss');
-const prefixer    = require('autoprefixer');
-const babelify    = require('babelify');
-const gulpConfig  = require('./config.gulp');
-const browserify  = require('browserify');
-const sourcemaps  = require('gulp-sourcemaps');
-const browserSync = require('browser-sync');
-const reload      = browserSync.reload;
+'use strict';
 
-// run server
+const gulp          = require('gulp');
+const path          = require('path');
+const jade          = require('gulp-jade');
+const sass          = require('gulp-sass');
+const gutil         = require('gulp-util');
+const img64         = require('gulp-img64');
+const named         = require('vinyl-named');
+const gulpIf        = require('gulp-if');
+const notify        = require('gulp-notify');
+const uglify        = require('gulp-uglify');
+const cssmin        = require('gulp-cssnano');
+const plumber       = require('gulp-plumber');
+const postcss       = require('gulp-postcss');
+const prefixer      = require('autoprefixer');
+const gulpConfig    = require('./config.gulp');
+const sourcemaps    = require('gulp-sourcemaps');
+const browserSync   = require('browser-sync');
+const reload        = browserSync.reload;
+const webpackStream = require('webpack-stream');
+const webpack       = webpackStream.webpack;
+
+const isDevelopment = !process.env.NODE_ENV || !process.env.NODE_ENV == 'development';
+
+/**
+ * Запуск сервера с liveReload
+ */
 gulp.task('webserver', function () {
     browserSync( gulpConfig.browserSyncConfig );
 });
 
+/**
+ * Задача для сборки и минификации js
+ */
 gulp.task('js:build', function () {
-    var files = gulpConfig.src.js;
 
-    var tasks = files.map(function (entry) {
-        var outputFile = entry.split('/').pop();
+    var options = {
+        // watch: isDevelopment,
+        devtool: null,
+        module: {
+            loaders: [
+                {
+                    test: /\.jsx?$/,
+                    exclude: /(node_modules|bower_components)/,
+                    loader: 'babel-loader'
+                },
+                {
+                    test: /\.(png|jpg|gif)$/,
+                    loader: "url-loader"
+                }
+            ]
+        },
+        plugins: new webpack.NoErrorsPlugin()
+    };
 
-        return browserify({
-            entries: entry,
-            extensions: ['.jsx'],
-            debug: true
-        }).transform( 'babelify', {presets: ['es2015', 'react']} )
-            .bundle()
-            .pipe( plumber() )
-            .pipe( source(outputFile) )
-            .pipe(rename({
-                extname: '.bundle.js'
-            }))
-            .pipe( plumber.stop() )
-            .pipe( uglify() )
-            .pipe( gulp.dest(gulpConfig.build.js) )
-            .pipe( reload( {stream: true} ) );
-    });
-
-    return es.merge.apply(null, tasks);
+    return gulp.src( gulpConfig.src.js )
+        .pipe(plumber())
+        .pipe(named())
+        .pipe(webpackStream( options ))
+        .pipe(uglify())
+        .pipe( plumber.stop() )
+        .pipe(gulp.dest(gulpConfig.build.js))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('style:build', function (done) {
@@ -69,10 +84,12 @@ gulp.task('html:build', function(done) {
     var YOUR_LOCALS = {};
 
     gulp.src( gulpConfig.src.html )
+        .pipe( plumber() )
         .pipe(jade({
             locals: YOUR_LOCALS
         }))
-        .on('error',gutil.log)
+        .pipe(img64())
+        .pipe( plumber.stop() )
         .pipe( gulp.dest(gulpConfig.build.html) )
         .pipe( reload({stream: true}) );
     done();

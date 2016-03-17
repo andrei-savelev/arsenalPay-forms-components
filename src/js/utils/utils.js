@@ -184,7 +184,8 @@ var utils = {
     messageTexts: {
         onlyNumbersAccepted: 'Допускается ввод только цифр от 0 - 9',
         emptyAmount: 'Введите сумму оплаты',
-        emptyAccount: 'Поле не заполнено',
+        emptyAccount: 'Заполните поле',
+        incorrectAccount: 'Проверьте правильность ввода и попробуйте еще раз',
         maxAmount: 'Максимальная сумма возможного платежа 75000 руб',
         minAmount: 'Минимальная сумма для оплаты 60 руб',
         emptyPhone: 'Введите номер телефона',
