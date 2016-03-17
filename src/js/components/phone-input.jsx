@@ -5,7 +5,7 @@ import utils from '../utils/utils';
 import _ from 'lodash';
 
 window.$ = window.jQuery = require('jquery');
-let MaskPlugin = require('jquery-mask-plugin');
+let inputMask = require('../../../bower_components/jquery.inputmask/dist/jquery.inputmask.bundle');
 
 let PhoneInput = React.createClass({
     getInitialState() {
@@ -59,40 +59,15 @@ let PhoneInput = React.createClass({
         var $phoneInput = $(ReactDOM.findDOMNode(this._phoneInput));
         var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
 
-        $phoneInput.mask('(000) 000-00-00', {
-            onKeyPress: function (cep, err, field, options) {
-                var numericValue = utils.getOnlyNumbers(cep),
-                    trueValueLength = null;
+        $phoneInput.inputmask('(999) 999 99 99', {
+            oncomplete: function (event) {
+                var resultValue = utils.getOnlyNumbers(event.currentTarget.value)
+                                       .trim();
 
-                !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
-
-                if (_.isEmpty(cep)) {
-                    this.setState({ state: 'empty' });
-
-                } else if ( trueValueLength !== 10 ) {
-                    this.setState( {state: 'minPhoneLength'} );
-
-                } else if ( Number( String(numericValue).charAt(0) ) !== 9 ) {
-                    this.setState( {state: 'invalidFirstSymbol'} );
-                } else {
-                    this.setState( {
-                        state: 'correct',
-                        value: cep
-                    });
-                }
-
-            }.bind(this),
-
-            /*onInvalid: function (val, err, field, invalid, options) {
-                utils.showInfoTooltip($infoTooltip, 'error', 'Не правильно указан номер');
-            },*/
-
-            onComplete: function ( cep ) {
                 this.setState({
-                    value: utils.getOnlyNumbers( cep )
+                    value: resultValue
                 });
 
-                utils.hideInfoTooltip( $infoTooltip );
             }.bind(this)
         });
 
@@ -114,6 +89,9 @@ let PhoneInput = React.createClass({
         var $infoTooltip = $(ReactDOM.findDOMNode( this._infoTooltipPhone ) );
         var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
         var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
+        var value = event.currentTarget.value;
+
+
 
         switch ( this.state.state ) {
             case 'minPhoneLength':
