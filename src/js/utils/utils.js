@@ -108,6 +108,28 @@ function _hideInfo($element) {
     $element.removeClass('_show')
 }
 
+/**
+ * Функция проверки корректности введенного номера телефона
+ * @param value
+ * @private
+ */
+function _phoneIsComplete(value) {
+    var _value = value || '';
+    var numericValue = _getOnlyNumbers(_value),
+        trueValueLength = _getOnlyNumbers(_value).length;
+
+    if (_.isEmpty(_value)) {
+        this.setState({state: 'empty'});
+
+    } else if (trueValueLength !== 10) {
+        this.setState( {state: 'minPhoneLength'} );
+
+    } else if (Number(String(numericValue).charAt(0)) !== 9) {
+        this.setState({state: 'invalidFirstSymbol'});
+    } else {
+        this.setState({state: 'correct'});
+    }
+}
 
 function _cardFromNumber (num) {
     var card,
@@ -177,6 +199,7 @@ var utils = {
     getOnlyNumbers: _getOnlyNumbers,
     getCard: _cardFromNumber,
     luhnCheck: _luhnCheck,
+    phoneIsComplete: _phoneIsComplete,
 
     /**
      * Список текстов для поля подсказки
