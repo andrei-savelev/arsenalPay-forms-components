@@ -27,9 +27,6 @@ let PhoneInput = React.createClass({
         return (
             <div className="field-row">
                 <label htmlFor="phone-input" className="field-row__label">Номер телефона</label>
-                <span className="field-row__phone-start-symbol">
-                    +7
-                </span>
                 <div className="flex-input-container js-phone-input-container"
                      ref={(ref) => {this._inputFieldWrapper = ref}}>
                     <input type="tel"
@@ -37,7 +34,7 @@ let PhoneInput = React.createClass({
                            name={ this.props.name }
                            autoComplete="off"
                            tabIndex="1"
-                           placeholder="(___) ___ __ __"
+                           placeholder="+7 (___) ___ __ __"
                            className="field-row__input _phone js-phone-input"
                            onBlur={this._onBlurHandler}
                            onFocus={this._onFocusHandler}
@@ -59,19 +56,17 @@ let PhoneInput = React.createClass({
         var $phoneInput = $(ReactDOM.findDOMNode(this._phoneInput));
         var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
 
-        $phoneInput.inputmask('(999) 999 99 99', {
+        $phoneInput.inputmask('+7 (999) 999 99 99', {
             oncomplete: function (event) {
-                var resultValue = utils.getOnlyNumbers(event.currentTarget.value)
-                                       .trim();
+                var resultValue = utils.getOnlyNumbers(event.currentTarget.value).trim();
 
                 this.setState({
                     value: resultValue
                 });
-
             }.bind(this)
         });
 
-        $(this._infoToggler).on('click', function ( event ) {
+        $(this._infoToggler).on('click', function () {
             utils.showInfoTooltip( $infoTooltip, 'info', utils.messageTexts.availableOperators );
 
             if ( !$infoTooltip.hasClass( '_help' ) ) {
@@ -86,35 +81,12 @@ let PhoneInput = React.createClass({
      * @private
      */
     _onBlurHandler(event) {
-        var $infoTooltip = $(ReactDOM.findDOMNode( this._infoTooltipPhone ) );
-        var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
-        var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
         var value = event.currentTarget.value;
 
+        utils.phoneIsComplete(value, this);
 
-
-        switch ( this.state.state ) {
-            case 'minPhoneLength':
-                $targetElement.addClass('invalid-value');
-                $infoToggler.addClass('invalid-value');
-                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.minPhoneLength );
-                break;
-
-            case 'invalidFirstSymbol':
-                $targetElement.addClass('invalid-value');
-                $infoToggler.addClass('invalid-value');
-                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol );
-                break;
-
-            case 'correct':
-                $targetElement.removeClass('invalid-value');
-                $infoToggler.removeClass('invalid-value');
-                utils.hideInfoTooltip( $infoTooltip );
-
-                this.setState({
-                    value: utils.getOnlyNumbers( this._phoneInput.value )
-                });
-                break;
+        if (!_.isEmpty(value)) {
+            setTimeout(this._validate, 0);
         }
     },
 
@@ -122,7 +94,7 @@ let PhoneInput = React.createClass({
      * Обработка события onFocus
      * @private
      */
-    _onFocusHandler(event) {
+    _onFocusHandler() {
         var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
         var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
         var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
@@ -132,12 +104,16 @@ let PhoneInput = React.createClass({
         utils.hideInfoTooltip($infoTooltip);
     },
 
+    /**
+     * Метод валидации поля.
+     * @private
+     */
     _validate() {
         var $infoTooltip = $(ReactDOM.findDOMNode(this._infoTooltipPhone));
         var $targetElement = $(ReactDOM.findDOMNode(this._phoneInput));
         var $infoToggler = $(ReactDOM.findDOMNode(this._infoToggler));
 
-        switch ( this.state.state ) {
+        switch (this.state.state) {
             case 'empty':
                 $targetElement.addClass('invalid-value');
                 $infoToggler.addClass('invalid-value');
@@ -147,22 +123,22 @@ let PhoneInput = React.createClass({
             case 'minPhoneLength':
                 $targetElement.addClass('invalid-value');
                 $infoToggler.addClass('invalid-value');
-                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.minPhoneLength );
+                utils.showInfoTooltip($infoTooltip, 'error', utils.messageTexts.minPhoneLength);
                 break;
 
             case 'invalidFirstSymbol':
                 $targetElement.addClass('invalid-value');
                 $infoToggler.addClass('invalid-value');
-                utils.showInfoTooltip( $infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol );
+                utils.showInfoTooltip($infoTooltip, 'error', utils.messageTexts.invalidFirstSymbol);
                 break;
 
             case 'correct':
                 $targetElement.removeClass('invalid-value');
                 $infoToggler.removeClass('invalid-value');
-                utils.hideInfoTooltip( $infoTooltip );
+                utils.hideInfoTooltip($infoTooltip);
 
                 this.setState({
-                    value: utils.getOnlyNumbers( this._phoneInput.value )
+                    value: utils.getOnlyNumbers(this._phoneInput.value)
                 });
                 break;
         }
