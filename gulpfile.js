@@ -37,7 +37,7 @@ gulp.task('js:build', function () {
 
     var options = {
         // watch: isDevelopment,
-        devtool: null,
+        devtool: '#cheap-module-source-map',
         module: {
             loaders: [
                 {
@@ -58,7 +58,7 @@ gulp.task('js:build', function () {
         .pipe(plumber())
         .pipe(named())
         .pipe(webpackStream( options ))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe( plumber.stop() )
         .pipe(gulp.dest(gulpConfig.build.js))
         .pipe(reload({stream: true}));
