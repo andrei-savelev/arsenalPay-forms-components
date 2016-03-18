@@ -111,26 +111,34 @@ function _hideInfo($element) {
 /**
  * Функция проверки корректности введенного номера телефона
  * @param value
+ * @param context
  * @private
  */
-function _phoneIsComplete(value) {
+function _phoneIsComplete(value, context) {
     var _value = value || '';
-    var numericValue = _getOnlyNumbers(_value),
-        trueValueLength = _getOnlyNumbers(_value).length;
+    var numericValue = _getOnlyNumbers(_value);
+    var trueValueLength = String(numericValue).length;
 
     if (_.isEmpty(_value)) {
-        this.setState({state: 'empty'});
+        context.setState({state: 'empty'});
 
-    } else if (trueValueLength !== 10) {
-        this.setState( {state: 'minPhoneLength'} );
+    } else if (trueValueLength < 10) {
+        context.setState({state: 'minPhoneLength'});
 
-    } else if (Number(String(numericValue).charAt(0)) !== 9) {
-        this.setState({state: 'invalidFirstSymbol'});
+    } else if (Number(String(numericValue).charAt(1)) !== 9) {
+        context.setState({state: 'invalidFirstSymbol'});
+
     } else {
-        this.setState({state: 'correct'});
+        context.setState({state: 'correct'});
     }
 }
 
+/**
+ * Метод возвращает тип карты в соотвествии с переданным значением
+ * @param num
+ * @returns {object}
+ * @private
+ */
 function _cardFromNumber (num) {
     var card,
         i,
@@ -161,6 +169,12 @@ function _cardFromNumber (num) {
     return result || {};
 }
 
+/**
+ * Метод валидирует номер карты по алгоритму Луна
+ * @param num
+ * @returns {boolean}
+ * @private
+ */
 function _luhnCheck (num) {
     var digit,
         digits,
