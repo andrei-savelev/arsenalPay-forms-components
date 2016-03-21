@@ -171,6 +171,25 @@ img:after {
     }
   }
 
+  &__select {
+    display: block;
+    width: 100%;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-left: 39px;
+    outline: none;
+    border-radius: 2px;
+    border: 1px solid #aaaaaa;
+    background-color: rgb(255, 255, 255);
+    background-position: 13px center;
+    background-repeat: no-repeat;
+    background-size: 15px auto;
+    font-size: 16px;
+    color: $textColor;
+    appearance: none;
+    transition: border-color, box-shadow .15s ease-in-out;
+  }
+
   &__panel {
     margin-bottom: 37px;
     border-radius: 2px;
@@ -375,6 +394,13 @@ img:after {
     }
   }
 
+  &__select {
+    display: block;
+    width: 100%;
+    appearance: none;
+    background-color: rgb(255, 255, 255);
+  }
+
   &__phone-start-symbol {
     position: absolute;
     left: 43px;
@@ -468,6 +494,15 @@ img:after {
 }*/
 
 /* Help */
+.flex-container {
+  display: flex;
+  width: 80%;
+  margin: auto;
+}
+
+.component-item {
+  justify-content: space-between;
+}
 .centered {
   text-align: center;
 }

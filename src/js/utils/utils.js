@@ -118,11 +118,12 @@ function _phoneIsComplete(value, context) {
     var _value = value || '';
     var numericValue = _getOnlyNumbers(_value);
     var trueValueLength = String(numericValue).length;
+    console.log('trueValueLength', trueValueLength);
 
     if (_.isEmpty(_value)) {
         context.setState({state: 'empty'});
 
-    } else if (trueValueLength < 10) {
+    } else if (trueValueLength < 11) {
         context.setState({state: 'minPhoneLength'});
 
     } else if (Number(String(numericValue).charAt(1)) !== 9) {

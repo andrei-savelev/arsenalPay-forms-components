@@ -60,6 +60,7 @@ let AmountInput = React.createClass({
 
                 !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
 
+                console.log(numericValue);
                 if (numericValue < 60) {
                     this.setState( {
                         state: 'minAmountError'

@@ -1,10 +1,11 @@
+window.$ = window.jQuery = require('jquery');
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import InfoTooltip from './info-tooltip.jsx';
 import utils from '../utils/utils';
 import _ from 'lodash';
 
-window.$ = window.jQuery = require('jquery');
 let inputMask = require('../../../bower_components/jquery.inputmask/dist/jquery.inputmask.bundle');
 
 let PhoneInput = React.createClass({
@@ -46,7 +47,6 @@ let PhoneInput = React.createClass({
                         ?
                     </div>
                 </div>
-
                 {<InfoTooltip ref={(ref) => {this._infoTooltipPhone = ref}} />}
             </div>
         );

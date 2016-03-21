@@ -1,18 +1,20 @@
 doctype html
 include jade-templates/head
 
-    body
-        div.container
-            div.component-item
-                h2.centered Карты
-                div#card
+    html(lang="ru").component-collection
+        body
+            div.flex-container
+                div.component-item
+                    h2.centered Карты
+                    div#card
 
-        div.component-item
-            h2.centered Телефоны
-            div#mk
+                div.component-item
+                    h2.centered Телефоны
+                    section#phone-form
 
-        div.component-item
-            h2.centered Кошельки
-            div#wallet
+                div.component-item
+                    h2.centered Кошельки
+                    section#wallet-form
 
-        script(src='assets/js/main.js')
+            script(src='assets/js/wallet-form.js')
+            script(src='assets/js/phone-form.js')

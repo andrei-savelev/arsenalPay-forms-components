@@ -3,22 +3,22 @@ window.$ = window.jQuery = require('jquery');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Form from './components/Form.jsx';
+import WalletsSelect from './components/wallets-select.jsx';
 import PhoneInput from './components/phone-input.jsx';
-import AccountInput from './components/account-input.jsx';
 import AmountInput from './components/amount-input.jsx';
 import SubmitButton from './components/submit-button.jsx';
 import FooterWOCardSecure from './components/footer-wo-card-secure.jsx';
-import errorLogger from 'client-error-logger';
+import ErrorLogger from 'client-error-logger';
 
-errorLogger('https://arsenalpay.ru/p2p/log.php');
+ErrorLogger();
 
-let Phone = React.createClass({
+let Wallet = React.createClass({
     render() {
         return (
             <Form>
+                <WalletsSelect name="WALLET" />
                 <PhoneInput name="PHONE" />
-                <AccountInput name="ACCOUNT" />
-                <AmountInput name="AMOUNT" />
+                <AmountInput name="AMOUNT"/>
                 <SubmitButton title="Оплатить" />
                 <FooterWOCardSecure />
             </Form>
@@ -26,6 +26,6 @@ let Phone = React.createClass({
     }
 });
 
-export default Phone;
+export default Wallet;
 
-ReactDOM.render(<Phone />, document.getElementById('phone-form'));
+ReactDOM.render(<Wallet />, document.getElementById('wallet-form'));
