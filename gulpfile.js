@@ -70,7 +70,7 @@ gulp.task('style:build', function (done) {
         .pipe(sass())
         .pipe(postcss([
             prefixer({
-                browsers: ['last 2 versions']
+                browsers: ['last 3 versions']
             })
         ]))
         .pipe(cssmin())
