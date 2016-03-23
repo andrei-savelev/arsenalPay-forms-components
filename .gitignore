@@ -1,4 +1,7 @@
 .idea/
 node_modules/
 bower_components/
-dist/
+/dist/assets/css/
+/dist/assets/js/assets/
+/dist/assets/js/dist/
+/dist/assets/js/*.map
