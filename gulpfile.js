@@ -37,7 +37,7 @@ gulp.task('js:build', function () {
 
     var options = {
         // watch: isDevelopment,
-        devtool: '#cheap-module-source-map',
+        devtool: null,
         module: {
             loaders: [
                 {
