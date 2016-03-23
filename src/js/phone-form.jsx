@@ -9,8 +9,11 @@ import AmountInput from './components/amount-input.jsx';
 import SubmitButton from './components/submit-button.jsx';
 import FooterWOCardSecure from './components/footer-wo-card-secure.jsx';
 import errorLogger from 'client-error-logger';
+import {loadFont} from './utils/utils';
 
 errorLogger('https://arsenalpay.ru/p2p/log.php');
+
+loadFont();
 
 let Phone = React.createClass({
     render() {
