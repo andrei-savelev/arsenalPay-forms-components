@@ -99,7 +99,7 @@ let CardInput = React.createClass({
 
         if ( _.isEmpty( event.target.value ) ) {
             this.setState( { cardState: 'empty' } );
-            utils.showInfoTooltip( $infoTooltipCard, 'error', utils.messageTexts.emptyCard );
+            //utils.showInfoTooltip( $infoTooltipCard, 'error', utils.messageTexts.emptyCard );
         }
 
     }
