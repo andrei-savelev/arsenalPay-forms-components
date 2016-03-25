@@ -47,7 +47,56 @@ $ npm run serve
 В идеале должен индексная страница с проекта должна открыться автоматически в браузере по умолчанию,
 если этого не произошло, то просто откройте новую вкалдку и введите описанный выше адрес.
 
+#### Создание новой формы из готовых компонентов
 
+В этом пимере описано как создать форму оплаты с помощью карты.
+
+```sh
+$ cd src/js/
+$ touch card-from.jsx
+```
+
+После этого откройте созданный файл в вашем любимом редакторе и подключите базовые компоненты:
+```javascript
+import React from 'react'; // Подключаем React
+import ReactDOM from 'react-dom'; // Подключаем модуль для рендера React компонентов в DOM
+import Form from './components/Form.jsx'; // Базовый компонент формы
+import CardInput from './components/card-input.jsx' // Компонент поля ввода номера карты
+import ExpRow from './components/expire-row.jsx'; // Компонент выпадающих списков даты истечения и cvc
+import AmountInput from './components/amount-input.jsx'; // Компонент поля вводы суммы
+import SubmitButton from './components/submit-button.jsx'; // Компонент кнопки для сабмита
+import Footer from './components/footer.jsx'; // Компонент футера с логотипами и ссылкой
+import errorLogger from 'client-error-logger'; // Модуль логирования ошибок
+import {loadFont} from './utils/utils'; // Модуль загрузки шрифтов
+
+// вызов функции логирования ошибок клиента на сервер (Опционально)
+errorLogger('https://arsenalpay.ru/p2p/log.php');
+
+// Загружаем шрифты
+loadFont();
+
+// Создаем компнент формы карты
+let Card = React.createClass({
+    render() {
+        return (
+            <Form>
+                <CardInput />
+                <ExpRow name="Expire" />
+                <AmountInput name="AMOUNT" label="Сумма перевода"/>
+                <SubmitButton title="Перевести" />
+                <Footer />
+            </Form>
+        );
+    }
+});
+
+// Экспортируем компонент, (опционально)
+export default Card;
+
+// Рендерим компонент в контейнер на странице с id card-form
+ReactDOM.render(<Card />, document.getElementById('card-form'));
+
+```
 
 -----
 
