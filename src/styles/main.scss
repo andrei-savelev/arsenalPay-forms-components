@@ -103,6 +103,15 @@ img:after {
 /* Common styles */
 .ap-ui {
 
+  * {
+    box-sizing: border-box;
+
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
   &__container {
 
     * {
@@ -188,7 +197,57 @@ img:after {
     color: $textColor;
     appearance: none;
     transition: border-color, box-shadow .15s ease-in-out;
+
+    &::-ms-expand {
+      display: none;
+    }
   }
+
+  &__expire {
+    float: left;
+    width: 50%;
+  }
+
+  &__exp-selects {
+    margin-right: 5px;
+    border-radius: 2px;
+    border: 1px solid #aaaaaa;
+
+    &--item {
+      width: 49%;
+      padding: 9px;
+      outline: none;
+      border: none;
+      background-color: rgb(255, 255, 255);
+      color: $textColor;
+      font-size: 16px;
+      text-align: center;
+      appearance: none;
+      transition: border-color, box-shadow .15s ease-in-out;
+
+      &:first-child {
+        border-radius: 2px 0 0 2px;
+        margin-right: 2px;
+        padding-left: 39px;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAeCAMAAAAIG46tAAAAUVBMVEUAAADkbQDlagDkbwflbgfkbwbkbwblbgbjcAbjbwblbwbkbwblbwfkcAfkcAblcAblbwblcAbkcAbkbwbkcAbkbwblcAblbwblcAblbwblcAeT06V6AAAAGnRSTlMAHB1xdHp8f4CBprW45u3y8/T29/n6+/z9/uyTodcAAACASURBVHja7ZK5DsJADAVtbgxOOJIA8/8fSlZPW7FUKB1Tjd5IrmwV+LTFokfSaxpgkF3I8Ll1wFXTBKPsBnRuAXDX9IRJNgKEJVCPAQ/ZCyANClub2RVbFztoNcTebAOoHqmxxeLRvvCPv8bE221FWnDyZjsTes0mneupG5SnfgO7fyHURB0oywAAAABJRU5ErkJggg==');
+        background-position: 13px center;
+        background-size: 14px auto;
+        background-repeat: no-repeat;
+      }
+
+      &:last-child {
+        padding-left: 15px;
+        border-radius: 0 2px 2px 0;
+      }
+    }
+
+  }
+
+  &__cvc {
+    display: inline-block;
+    width: 50%;
+  }
+
 
   &__panel {
     margin-bottom: 37px;
@@ -306,6 +365,15 @@ img:after {
   position: relative;
   margin-bottom: 17px;
 
+  * {
+    box-sizing: border-box;
+
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
   .invalid-value {
     border: 1px solid #80a8b3 !important;
   }
@@ -331,6 +399,10 @@ img:after {
     align-content: stretch;
     align-items: flex-start;
     width: 100%;
+
+    &._cvc-container {
+      width: 110px;
+    }
   }
 
   &__input {
@@ -378,6 +450,15 @@ img:after {
       background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAWCAMAAADgvdz9AAAAFVBMVEUAAADkbQDlbwbkbwfkcAfkcAblcAdfkMTOAAAABnRSTlMAHKa25u20+nPGAAAAQElEQVR42s3SsRUAIAwCUYjx9h9ZB5CX1t9eCZKreeryrZtoW8WynrwoNVZgWqAI5pz9nhV9nYdBhzsMZxqueABDZwfJMS8CIgAAAABJRU5ErkJggg==');
     }
 
+    &._cvc {
+      width: 110px;
+      padding-left: 39px;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAgCAMAAAA2a+hwAAAAkFBMVEUAAACqVQDMZgDbbQDfYADjVQDMZgDRXQDVagDYYgDbbQDdZgDkawDcaADkbQDgbADfbAbibwXjcAfjcAbkbQbjbwbjbwXkbgXkbwXjbwfkcAbkcAfjbgblbwbkbwblbwblcAbkbwfkbwbkbwbkcAblbwbkbwfkcAfkcAblcAbkcAbkbwbkbwbkcAblcAblcAdJj85uAAAAL3RSTlMAAwUHCAkKCwwNDg8TFhwhKDVJUlRaZWZnboKZnaanr7C2yM/Q1+Pm7fL29/j5/aK9nDMAAADPSURBVHjavdLJEoIwEEXRdsQgRMUBRJBBJSjg+/+/0yo1EIWU5cK76q6zgSQkM9bR6Xw+RWuDPloKPBPLd/OB1JszNvdSwFdti9J9zW6JbdNml+uq3lbXy6yBe+yo0Q77erGqym6iXVWWXDaISSnGRs4BXBVdBHI+YqHiAgc5C9gq2hByLjDq9QfDsTFhzDRNNpmieAgPBVoSIb9bjo5yTiESTi3xBCEJSHtTCAKoI+B7dLLM6cQMyDoR9/6Aug/S/8rvJ6Q9eO2VaS9b+0xuhvEwTgZ88kMAAAAASUVORK5CYII=');
+      background-position: 13px center;
+      background-size: 14px auto;
+      background-repeat: no-repeat;
+    }
+
     &._account {
       background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAgCAMAAAA2a+hwAAAAkFBMVEUAAACqVQDMZgDbbQDfYADjVQDMZgDRXQDVagDYYgDbbQDdZgDkawDcaADkbQDgbADfbAbibwXjcAfjcAbkbQbjbwbjbwXkbgXkbwXjbwfkcAbkcAfjbgblbwbkbwblbwblcAbkbwfkbwbkbwbkcAblbwbkbwfkcAfkcAblcAbkcAbkbwbkbwbkcAblcAblcAdJj85uAAAAL3RSTlMAAwUHCAkKCwwNDg8TFhwhKDVJUlRaZWZnboKZnaanr7C2yM/Q1+Pm7fL29/j5/aK9nDMAAADPSURBVHjavdLJEoIwEEXRdsQgRMUBRJBBJSjg+/+/0yo1EIWU5cK76q6zgSQkM9bR6Xw+RWuDPloKPBPLd/OB1JszNvdSwFdti9J9zW6JbdNml+uq3lbXy6yBe+yo0Q77erGqym6iXVWWXDaISSnGRs4BXBVdBHI+YqHiAgc5C9gq2hByLjDq9QfDsTFhzDRNNpmieAgPBVoSIb9bjo5yTiESTi3xBCEJSHtTCAKoI+B7dLLM6cQMyDoR9/6Aug/S/8rvJ6Q9eO2VaS9b+0xuhvEwTgZ88kMAAAAASUVORK5CYII=');
       background-size: 14px auto;
@@ -388,6 +469,8 @@ img:after {
       background-position: 16px;
       background-size: 9px auto;
     }
+
+
 
     &:focus {
       box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22);
@@ -422,6 +505,10 @@ img:after {
     text-align: center;
     font-size: 16px;
     cursor: pointer;
+
+    &._cvc-help {
+      padding: 9px 16px;
+    }
   }
 
   &__error {

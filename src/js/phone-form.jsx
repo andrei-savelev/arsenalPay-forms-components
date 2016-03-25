@@ -9,8 +9,11 @@ import AmountInput from './components/amount-input.jsx';
 import SubmitButton from './components/submit-button.jsx';
 import FooterWOCardSecure from './components/footer-wo-card-secure.jsx';
 import errorLogger from 'client-error-logger';
+import {loadFont} from './utils/utils';
 
 errorLogger('https://arsenalpay.ru/p2p/log.php');
+
+loadFont();
 
 let Phone = React.createClass({
     render() {
@@ -18,7 +21,7 @@ let Phone = React.createClass({
             <Form>
                 <PhoneInput name="PHONE" />
                 <AccountInput name="ACCOUNT" />
-                <AmountInput name="AMOUNT" />
+                <AmountInput name="AMOUNT" label="Сумма оплаты"/>
                 <SubmitButton title="Оплатить" />
                 <FooterWOCardSecure />
             </Form>
