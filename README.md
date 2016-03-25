@@ -80,7 +80,7 @@ let Card = React.createClass({
     render() {
         return (
             <Form>
-                <CardInput />
+                <CardInput name="CARD" />
                 <ExpRow name="Expire" />
                 <AmountInput name="AMOUNT" label="Сумма перевода"/>
                 <SubmitButton title="Перевести" />
