@@ -37,7 +37,7 @@ $ bower install
   - [x] submitButton - кнопка для отправки формы
   
   
-[//]: # Вспомогательные ссылки и данные.
+[//]: # (Вспомогательные ссылки и данные.)
 
 [React]: <https://facebook.github.io/react/>
 [jQuery Mask Plugin]: <https://github.com/igorescobar/jQuery-Mask-Plugin>
