@@ -21,7 +21,7 @@ let Phone = React.createClass({
             <Form>
                 <PhoneInput name="PHONE" />
                 <AccountInput name="ACCOUNT" />
-                <AmountInput name="AMOUNT" />
+                <AmountInput name="AMOUNT" label="Сумма оплаты"/>
                 <SubmitButton title="Оплатить" />
                 <FooterWOCardSecure />
             </Form>
