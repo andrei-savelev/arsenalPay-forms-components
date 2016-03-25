@@ -26,7 +26,7 @@ let AmountInput = React.createClass({
     render() {
         return (
             <div className="field-row">
-                <label htmlFor="amount" className="field-row__label">Сумма оплаты</label>
+                <label htmlFor="amount" className="field-row__label">{this.props.label}</label>
                 <input type="tel"
                        id="amount"
                        name="AMOUNT"
