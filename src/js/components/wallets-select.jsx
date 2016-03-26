@@ -2,7 +2,6 @@ import React from 'react';
 import WalletsItem from './wallets-item.jsx';
 
 let WalletSelect = React.createClass({
-
     getInitialState() {
         return {
             acceptedWallets: []
