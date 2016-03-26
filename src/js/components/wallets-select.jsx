@@ -17,15 +17,6 @@ let WalletSelect = React.createClass({
         this.props.detachFromForm(this);
     },
 
-    componentDidMount() {
-
-        this.props.getAcceptedWallets().then((json)=> {
-            this.setState({
-                acceptedWallets: json.acceptedWallets
-            })
-        });
-    },
-
     render() {
         let options = this.state.acceptedWallets;
 
@@ -44,6 +35,15 @@ let WalletSelect = React.createClass({
                 </select>
             </div>
         );
+    },
+
+    componentDidMount() {
+
+        this.props.getAcceptedWallets().then((json)=> {
+            this.setState({
+                acceptedWallets: json.acceptedWallets
+            })
+        });
     }
 });
 
