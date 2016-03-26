@@ -37,7 +37,6 @@ let WalletSelect = React.createClass({
     },
 
     componentDidMount() {
-
         this.props.getAcceptedWallets().then((json)=> {
             this.setState({
                 acceptedWallets: json.acceptedWallets
