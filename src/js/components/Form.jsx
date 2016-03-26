@@ -1,4 +1,5 @@
 import React from 'react';
+import Fetch from 'whatwg-fetch';
 
 let Form = React.createClass({
     getInitialState() {
@@ -76,6 +77,11 @@ let Form = React.createClass({
         if (Object.keys(this._model).length !== componentsLength) {
             console.log('Не все поля заполенены верно', this._inputs);
         } else {
+            // Отсылаем данные на сервер. Данные находятся в модели
+            // fetch(this.state.actionUrl, this.model)
+            // .then((response) => {
+            //    do something with response
+            // });
             console.log('Hell YEAAAH!', this._model);
         }
     }
