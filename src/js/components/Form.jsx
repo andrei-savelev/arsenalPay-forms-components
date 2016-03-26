@@ -1,15 +1,30 @@
 import React from 'react';
 
 let Form = React.createClass({
+    getInitialState() {
+        return {
+            actionUrl: ''
+        }
+    },
+
     componentWillMount() {
         this._model = {};
         this._inputs = {};
     },
 
+    componentDidMount() {
+        this.props.getActionUrl()
+            .then((json) => {
+                this.setState({
+                    actionUrl: json.actionUrl
+                });
+            })
+    },
+
     render() {
         return (
             <div className="ap-ui__container">
-                <form action="/cgi-cred-bin/cgi_link"
+                <form action={this.state.actionUrl}
                       method="post"
                       className="ap-ui__form js-pay-form" onSubmit={this._onSubmitHandler}>
                     {this.registerInputs(this.props.children)}

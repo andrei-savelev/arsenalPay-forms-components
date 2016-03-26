@@ -7,9 +7,11 @@ import WalletsSelect from './components/wallets-select.jsx';
 import PhoneInput from './components/phone-input.jsx';
 import Replacement from './components/replacement.jsx';
 import EmailInput from './components/email-input.jsx';
+import AccountInput from './components/account-input.jsx';
 import AmountInput from './components/amount-input.jsx';
 import SubmitButton from './components/submit-button.jsx';
 import FooterWOCardSecure from './components/footer-wo-card-secure.jsx';
+import Fetch from 'whatwg-fetch';
 import errorLogger from 'client-error-logger';
 import {loadFont} from './utils/utils';
 
@@ -18,18 +20,33 @@ errorLogger('https://arsenalpay.ru/p2p/log.php');
 loadFont();
 
 let Wallet = React.createClass({
-
     getInitialState() {
         return {
-            componentToRender: <PhoneInput name="PHONE" />
+            changableField: <PhoneInput name="PHONE" />
         }
+    },
+
+    getInitData() {
+        return fetch(this.props.getDataUrl)
+            .then((response) => {
+                return response.json();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+
+    getActionUrl() {
+        return this.getInitData();
     },
 
     render() {
         return (
-            <Form>
-                <WalletsSelect name="WALLET" onChangeHandler={this._onChangeHandler}/>
-                {this.state.componentToRender}
+            <Form getActionUrl={this.getActionUrl}>
+                <WalletsSelect name="WALLET"
+                               getAcceptedWallets={this.getInitData}
+                               onChangeHandler={this._onChangeHandler} />
+                {this.state.changableField}
                 <AmountInput name="AMOUNT" label="Сумма оплаты"/>
                 <SubmitButton title="Оплатить" />
                 <FooterWOCardSecure />
@@ -38,15 +55,16 @@ let Wallet = React.createClass({
     },
 
     _onChangeHandler(event) {
+        console.log(event.currentTarget.value);
         switch (event.currentTarget.value) {
-            case 'WEBMONEY':
-                this.setState({componentToRender: <EmailInput name="EMAIL" />});
+            case 'WEBM':
+                this.setState({changableField: <EmailInput name="EMAIL" />});
                 break;
             case 'QIWI':
-                this.setState({componentToRender: <PhoneInput name="PHONE" />});
+                this.setState({changableField: <PhoneInput name="PHONE" />});
                 break;
             default:
-                this.setState({componentToRender: <PhoneInput name="PHONE" />});
+                this.setState({changableField: <AccountInput name="PHONE" />});
 
         }
     }
@@ -54,4 +72,4 @@ let Wallet = React.createClass({
 
 export default Wallet;
 
-ReactDOM.render(<Wallet />, document.getElementById('wallet-form'));
+ReactDOM.render(<Wallet getDataUrl="data.json"/>, document.getElementById('wallet-form'));
