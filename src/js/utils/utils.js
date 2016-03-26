@@ -118,7 +118,6 @@ function _phoneIsComplete(value, context) {
     var _value = value || '';
     var numericValue = _getOnlyNumbers(_value);
     var trueValueLength = String(numericValue).length;
-    console.log('trueValueLength', trueValueLength);
 
     if (_.isEmpty(_value)) {
         context.setState({state: 'empty'});
@@ -131,6 +130,15 @@ function _phoneIsComplete(value, context) {
 
     } else {
         context.setState({state: 'correct'});
+    }
+}
+
+function _amountIsComplete(value, context) {
+    var _value = value || '';
+    var numericValue = _getOnlyNumbers(_value);
+
+    if (_.isEmpty(_value)) {
+        context.setState({state: 'empty'});
     }
 }
 
