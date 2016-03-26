@@ -9,6 +9,14 @@ let WalletSelect = React.createClass({
         };
     },
 
+    componentWillMount() {
+        this.props.attachToForm(this);
+    },
+
+    componentWillUnmount() {
+        this.props.detachFromForm(this);
+    },
+
     componentDidMount() {
 
         this.props.getAcceptedWallets().then((json)=> {
