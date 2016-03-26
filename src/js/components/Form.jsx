@@ -12,15 +12,6 @@ let Form = React.createClass({
         this._inputs = {};
     },
 
-    componentDidMount() {
-        this.props.getActionUrl()
-            .then((json) => {
-                this.setState({
-                    actionUrl: json.actionUrl
-                });
-            })
-    },
-
     render() {
         return (
             <div className="ap-ui__container">
@@ -31,6 +22,15 @@ let Form = React.createClass({
                 </form>
             </div>
         );
+    },
+
+    componentDidMount() {
+        this.props.getActionUrl()
+            .then((json) => {
+                this.setState({
+                    actionUrl: json.actionUrl
+                });
+            })
     },
 
     registerInputs(children) {
