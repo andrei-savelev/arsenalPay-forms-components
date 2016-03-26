@@ -22,7 +22,6 @@ let WalletSelect = React.createClass({
         let options = this.state.acceptedWallets;
 
         let createOption = (options, index) => {
-            console.log('Что пришло в селект', options);
             return <WalletsItem key={index} optionValue={options.optionValue} text={options.text} />
         };
 
