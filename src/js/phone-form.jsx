@@ -16,12 +16,26 @@ errorLogger('https://arsenalpay.ru/p2p/log.php');
 loadFont();
 
 let Phone = React.createClass({
+    getInitData() {
+        return fetch(this.props.getDataUrl)
+            .then((response) => {
+                return response.json();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+
+    getActionUrl() {
+        return this.getInitData();
+    },
+
     render() {
         return (
-            <Form>
+            <Form getActionUrl={this.getActionUrl}>
                 <PhoneInput name="PHONE" />
                 <AccountInput name="ACCOUNT" />
-                <AmountInput name="AMOUNT" label="Сумма оплаты"/>
+                <AmountInput name="AMOUNT" label="Сумма оплаты" />
                 <SubmitButton title="Оплатить" />
                 <FooterWOCardSecure />
             </Form>
@@ -31,4 +45,4 @@ let Phone = React.createClass({
 
 export default Phone;
 
-ReactDOM.render(<Phone />, document.getElementById('phone-form'));
+ReactDOM.render(<Phone getDataUrl="data.json" />, document.getElementById('phone-form'));

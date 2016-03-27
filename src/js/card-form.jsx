@@ -16,12 +16,26 @@ errorLogger('https://arsenalpay.ru/p2p/log.php');
 loadFont();
 
 let Card = React.createClass({
+    getInitData() {
+        return fetch(this.props.getDataUrl)
+            .then((response) => {
+                return response.json();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+
+    getActionUrl() {
+        return this.getInitData();
+    },
+
     render() {
         return (
-            <Form>
+            <Form getActionUrl={this.getActionUrl}>
                 <CardInput name="CARD" />
                 <ExpRow name="Expire" />
-                <AmountInput name="AMOUNT" label="Сумма перевода"/>
+                <AmountInput name="AMOUNT" label="Сумма перевода" />
                 <SubmitButton title="Перевести" />
                 <Footer />
             </Form>
@@ -31,4 +45,4 @@ let Card = React.createClass({
 
 export default Card;
 
-ReactDOM.render(<Card />, document.getElementById('card-form'));
+ReactDOM.render(<Card getDataUrl="data.json" />, document.getElementById('card-form'));
