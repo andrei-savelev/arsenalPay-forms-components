@@ -10,24 +10,15 @@ import SubmitButton from './components/submit-button.jsx';
 import FooterWOCardSecure from './components/footer-wo-card-secure.jsx';
 import errorLogger from 'client-error-logger';
 import {loadFont} from './utils/utils';
+import utils from './utils/utils';
 
 errorLogger('https://arsenalpay.ru/p2p/log.php');
 
 loadFont();
 
 let Phone = React.createClass({
-    getInitData() {
-        return fetch(this.props.getDataUrl)
-            .then((response) => {
-                return response.json();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    },
-
     getActionUrl() {
-        return this.getInitData();
+        return utils.getInitData(this.props.getDataUrl);
     },
 
     render() {
