@@ -45,7 +45,6 @@ let AmountInput = React.createClass({
     },
 
     componentDidMount() {
-
         var $amountInput = $(ReactDOM.findDOMNode(this._amountInput)),
             $amountInputTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
 
