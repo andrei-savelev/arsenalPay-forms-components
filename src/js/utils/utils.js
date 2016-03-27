@@ -134,6 +134,23 @@ function _phoneIsComplete(value, context) {
 }
 
 /**
+ * Метод получает данные с сервера в формате json
+ * затем парсит его и возвращает промис с этим объеком
+ * @param url {string} - откуда брать данные
+ * @returns {Promise.<T>}
+ * @private
+ */
+function _getInitData(url) {
+    return fetch(url)
+        .then((response) => {
+            return response.json();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+/**
  * Метод возвращает тип карты в соотвествии с переданным значением
  * @param num
  * @returns {object}
@@ -206,6 +223,7 @@ function _luhnCheck (num) {
 }
 
 var utils = {
+    getInitData: _getInitData,
     loadFont: _loadGFont,
     showInfoTooltip: _showInfo,
     hideInfoTooltip: _hideInfo,
