@@ -97,30 +97,11 @@ let AmountInput = React.createClass({
      * Events
      */
     _onBlurHandler(event) {
-        var $amountInputTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
-        var $targetElement = $(event.currentTarget);
-
-        switch (this.state.state) {
-            case 'minAmountError':
-                $targetElement.addClass('invalid-value');
-                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.minAmount );
-                break;
-
-            case 'maxAmountError':
-                $targetElement.addClass('invalid-value');
-                utils.showInfoTooltip( $amountInputTooltip, 'error', utils.messageTexts.maxAmount );
-                break;
-
-            case 'correct':
-                $targetElement.removeClass('invalid-value');
-                this.setState({
-                    value: this._amountInput.value
-                });
-
-                utils.hideInfoTooltip( $amountInputTooltip );
-                break;
+        if (!_.isEmpty(event.currentTarget.value)) {
+            this._validate();
         }
-    },
+    }
+    ,
 
     _onFocusHandler(event) {
         var $infoTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
