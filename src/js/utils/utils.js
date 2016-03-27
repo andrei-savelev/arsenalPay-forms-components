@@ -133,15 +133,6 @@ function _phoneIsComplete(value, context) {
     }
 }
 
-function _amountIsComplete(value, context) {
-    var _value = value || '';
-    var numericValue = _getOnlyNumbers(_value);
-
-    if (_.isEmpty(_value)) {
-        context.setState({state: 'empty'});
-    }
-}
-
 /**
  * Метод возвращает тип карты в соотвествии с переданным значением
  * @param num
