@@ -9,7 +9,7 @@ import AmountInput from './components/amount-input.jsx';
 import SubmitButton from './components/submit-button.jsx';
 import Footer from './components/footer.jsx';
 import errorLogger from 'client-error-logger';
-import utils from 'utils';
+import utils from './utils/utils';
 import {loadFont} from './utils/utils';
 
 errorLogger('https://arsenalpay.ru/p2p/log.php');
