@@ -9,6 +9,7 @@ import AmountInput from './components/amount-input.jsx';
 import SubmitButton from './components/submit-button.jsx';
 import Footer from './components/footer.jsx';
 import errorLogger from 'client-error-logger';
+import utils from 'utils';
 import {loadFont} from './utils/utils';
 
 errorLogger('https://arsenalpay.ru/p2p/log.php');
@@ -16,18 +17,8 @@ errorLogger('https://arsenalpay.ru/p2p/log.php');
 loadFont();
 
 let Card = React.createClass({
-    getInitData() {
-        return fetch(this.props.getDataUrl)
-            .then((response) => {
-                return response.json();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    },
-
     getActionUrl() {
-        return this.getInitData();
+        return utils.getInitData(this.props.getDataUrl);
     },
 
     render() {
