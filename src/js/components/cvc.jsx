@@ -20,7 +20,7 @@ let CVC = React.createClass({
             <div className="ap-ui__cvc" id="card-code-col">
                 <label htmlFor="card-code" className="field-row__label">CVC</label>
                 <div className="flex-input-container _cvc-container">
-                    <input type="tel"
+                    <input type="password"
                        className="field-row__input _cvc"
                        id="card-code"
                        name="CVC2"
@@ -28,7 +28,7 @@ let CVC = React.createClass({
                        pattern="\d*"
                        autoComplete="off"
                        maxLength="3"
-                       placeholder="000" />
+                       placeholder="000" ref={(ref) => {this._cvcInput = ref}}/>
                     <div className="input-help _cvc-help"
                         ref={(ref) => {this._infoToggler = ref}}>
                         ?
@@ -57,7 +57,7 @@ let CVC = React.createClass({
      * @private
      */
     _onChangeHandler() {},
-    _validation() {}
+    _validate() {}
 });
 
 export default CVC;
