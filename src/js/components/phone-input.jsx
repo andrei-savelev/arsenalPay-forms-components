@@ -86,7 +86,7 @@ let PhoneInput = React.createClass({
         utils.phoneIsComplete(value, this);
 
         if (!_.isEmpty(value)) {
-            setTimeout(this._validate, 0);
+            setTimeout(this._validate, 300);
         }
     },
 
