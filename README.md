@@ -77,12 +77,16 @@ loadFont();
 
 // Создаем компнент формы карты
 let Card = React.createClass({
+    _getActionUrl() {
+        return utils.getInitData(this.props.getDataUrl);
+    },
+
     render() {
         return (
-            <Form>
+            <Form getActionUrl={this._getActionUrl}>
                 <CardInput name="CARD" />
                 <ExpRow name="Expire" />
-                <AmountInput name="AMOUNT" label="Сумма перевода"/>
+                <AmountInput name="AMOUNT" label="Сумма перевода" />
                 <SubmitButton title="Перевести" />
                 <Footer />
             </Form>
@@ -90,12 +94,10 @@ let Card = React.createClass({
     }
 });
 
-// Экспортируем компонент, (опционально)
 export default Card;
 
-// Рендерим компонент в контейнер на странице с id card-form
-ReactDOM.render(<Card />, document.getElementById('card-form'));
-
+// getDataUrl - принимает url к данным для инициализации
+ReactDOM.render(<Card getDataUrl="data.json" />, document.getElementById('card-form'));
 ```
 
 -----
