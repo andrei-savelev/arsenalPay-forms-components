@@ -66,21 +66,8 @@ let AccountInput = React.createClass({
     },
 
     _onBlurHandler(event) {
-        var $inputTooltip = $(ReactDOM.findDOMNode(this._accountInputTooltip));
-        var $targetElement = $(event.currentTarget);
-
-        switch (this.state.state) {
-            case 'empty':
-                break;
-
-            case 'correct':
-                $targetElement.removeClass('invalid-value');
-                utils.hideInfoTooltip($inputTooltip);
-                break;
-
-            default:
-                $targetElement.addClass('invalid-value');
-                utils.showInfoTooltip($inputTooltip, 'error', utils.messageTexts.incorrectAccount);
+        if (!_.isEmpty(event.target.value)) {
+            setTimeout(this._validate, 300);
         }
     },
 
