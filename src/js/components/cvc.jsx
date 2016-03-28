@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import InfoTooltip from './info-tooltip.jsx'
 import utils from '../utils/utils';
 
-let inputMask = require('../../../bower_components/jquery.inputmask/dist/jquery.inputmask.bundle');
+let MaskPlugin = require('jquery-mask-plugin');
 
 let CVC = React.createClass({
     getInitialState() {
@@ -21,14 +21,16 @@ let CVC = React.createClass({
                 <label htmlFor="card-code" className="field-row__label">CVC</label>
                 <div className="flex-input-container _cvc-container">
                     <input type="password"
-                       className="field-row__input _cvc"
-                       id="card-code"
-                       name="CVC2"
-                       inputMode="numeric"
-                       pattern="\d*"
-                       autoComplete="off"
-                       maxLength="3"
-                       placeholder="000" ref={(ref) => {this._cvcInput = ref}}/>
+                           className="field-row__input _cvc"
+                           id="card-code"
+                           name="CVC2"
+                           inputMode="numeric"
+                           pattern="\d*"
+                           autoComplete="off"
+                           maxLength="3"
+                           placeholder="000"
+                           data-state={this.state.state}
+                           ref={(ref) => {this._cvcInput = ref}}/>
                     <div className="input-help _cvc-help"
                         ref={(ref) => {this._infoToggler = ref}}>
                         ?
@@ -41,13 +43,28 @@ let CVC = React.createClass({
     componentDidMount() {
         var $cvcInput = $(ReactDOM.findDOMNode(this._cvcInput));
 
-        $cvcInput.inputmask('999', {
-            oncomplete: function (event) {
-                var resultValue = utils.getOnlyNumbers(event.currentTarget.value).trim();
+        $cvcInput.mask('999', {
+            onKeyPress: function(cep, e, field, options){
+                var trueValueLength = null,
+                    mask = null;
 
-                this.setState({
-                    value: resultValue
-                });
+                !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
+
+                if (_.isEmpty(cep)) {
+                    this.setState({
+                        state: 'empty'
+                    });
+                } else if (trueValueLength < 3) {
+                    this.setState({
+                        state: 'minCvc'
+                    });
+
+                } else {
+                    this.setState({
+                        state: 'correct',
+                        value: cep
+                    });
+                }
             }.bind(this)
         });
     },
@@ -57,6 +74,11 @@ let CVC = React.createClass({
      * @private
      */
     _onChangeHandler() {},
+
+    /**
+     * Метод валидации
+     * @private
+     */
     _validate() {}
 });
 
