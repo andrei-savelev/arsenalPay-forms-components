@@ -42,6 +42,9 @@ let WalletSelect = React.createClass({
                 acceptedWallets: json.acceptedWallets
             })
         });
+    },
+    _validate() {
+        console.log('У меня пока нет валидации');
     }
 });
 
