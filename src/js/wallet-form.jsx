@@ -31,11 +31,15 @@ let Wallet = React.createClass({
         return utils.getInitData(this.props.getDataUrl);
     },
 
+    _getWalletData() {
+        return utils.getInitData(this.props.getDataUrl);
+    },
+
     render() {
         return (
             <Form getActionUrl={this.getActionUrl}>
                 <WalletsSelect name="WALLET"
-                               getAcceptedWallets={this.getInitData}
+                               getAcceptedWallets={this._getWalletData}
                                onChangeHandler={this._onChangeHandler} />
                 {this.state.changableField}
                 <AmountInput name="AMOUNT" label="Сумма оплаты"/>
