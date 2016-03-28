@@ -58,16 +58,20 @@ let AmountInput = React.createClass({
 
                 !_.isEmpty(cep) && (trueValueLength = utils.getOnlyNumbers(cep).length);
 
-                console.log(numericValue);
-                if (numericValue < 60) {
-                    this.setState( {
+                if (_.isEmpty(cep)) {
+                    this.setState({
+                        state: 'empty'
+                    });
+
+                } else if (numericValue < 60) {
+                    this.setState({
                         state: 'minAmountError'
-                    } );
+                    });
 
                 } else if (numericValue > 75000) {
-                    this.setState( {
+                    this.setState({
                         state: 'maxAmountError'
-                    } );
+                    });
 
                 } else if (numericValue > 60 && numericValue < 75000) {
                     this.setState({
@@ -96,10 +100,10 @@ let AmountInput = React.createClass({
      */
     _onBlurHandler(event) {
         if (!_.isEmpty(event.currentTarget.value)) {
-            this._validate();
+            setTimeout(this._validate, 300);
+            //this._validate();
         }
-    }
-    ,
+    },
 
     _onFocusHandler(event) {
         var $infoTooltip = $(ReactDOM.findDOMNode(this._amountInputTooltip));
