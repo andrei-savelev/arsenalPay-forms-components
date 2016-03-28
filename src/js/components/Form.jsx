@@ -31,7 +31,9 @@ let Form = React.createClass({
                 this.setState({
                     actionUrl: json.actionUrl
                 });
-            })
+            });
+
+        console.log('Коллекция детей', this._inputs);
     },
 
     registerInputs(children) {
