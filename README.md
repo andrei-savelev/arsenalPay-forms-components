@@ -14,8 +14,8 @@
 После того, как вы установили весь этот инструментарий, выполните следующие команды:
 
 ```sh
-$ git clone <this-repository>
-$ cd <this-project>
+$ git clone ssh://git@git.arsenalmedia.ru:10232/savelevcorr/arsenalpay-from-components.git
+$ cd arsenalpay-from-components
 $ npm install
 $ bower install
 ```
