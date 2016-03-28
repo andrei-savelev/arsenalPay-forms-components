@@ -17,13 +17,13 @@ errorLogger('https://arsenalpay.ru/p2p/log.php');
 loadFont();
 
 let Card = React.createClass({
-    getActionUrl() {
+    _getActionUrl() {
         return utils.getInitData(this.props.getDataUrl);
     },
 
     render() {
         return (
-            <Form getActionUrl={this.getActionUrl}>
+            <Form getActionUrl={this._getActionUrl}>
                 <CardInput name="CARD" />
                 <ExpRow name="Expire" />
                 <AmountInput name="AMOUNT" label="Сумма перевода" />
