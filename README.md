@@ -67,6 +67,7 @@ import AmountInput from './components/amount-input.jsx'; // Компонент �
 import SubmitButton from './components/submit-button.jsx'; // Компонент кнопки для сабмита
 import Footer from './components/footer.jsx'; // Компонент футера с логотипами и ссылкой
 import errorLogger from 'client-error-logger'; // Модуль логирования ошибок
+import utils from './utils/utils'; // сборник вспомогательных методов
 import {loadFont} from './utils/utils'; // Модуль загрузки шрифтов
 
 // вызов функции логирования ошибок клиента на сервер (Опционально)
