@@ -1,23 +1,24 @@
 doctype html
-include jade-templates/head
+html(lang="ru").component-collection
+    include jade-templates/head
 
-    html(lang="ru").component-collection
-        body
-            div.flex-container
-                div.component-item
-                    h2.centered Карты
-                    div#card-form
+    body
+        div.ap-ui__widget#js-react-widget
+        //div.flex-container
+        //    div.component-item
+        //        h2.centered Карты
+        //        div#card-form
+        //
+        //    div.component-item
+        //        h2.centered Телефоны
+        //        section#phone-form
+        //
+        //    div.component-item
+        //        h2.centered Кошельки
+        //        section#wallet-form
 
-                div.component-item
-                    h2.centered Телефоны
-                    section#phone-form
+        //script(src='assets/js/card-form.js')
+        //script(src='assets/js/wallet-form.js')
+        //script(src='assets/js/phone-form.js')
 
-                div.component-item
-                    h2.centered Кошельки
-                    section#wallet-form
-
-            //script(src='assets/js/card-form.js')
-            //script(src='assets/js/wallet-form.js')
-            //script(src='assets/js/phone-form.js')
-
-            script(src='assets/js/main.js')
+        script(src='assets/js/main.js')
