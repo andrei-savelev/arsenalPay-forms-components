@@ -66,5 +66,3 @@ let Wallet = React.createClass({
 });
 
 export default Wallet;
-
-ReactDOM.render(<Wallet getDataUrl="data.json"/>, document.getElementById('wallet-form'));

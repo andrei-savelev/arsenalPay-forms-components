@@ -35,5 +35,3 @@ let Phone = React.createClass({
 });
 
 export default Phone;
-
-ReactDOM.render(<Phone getDataUrl="data.json" />, document.getElementById('phone-form'));

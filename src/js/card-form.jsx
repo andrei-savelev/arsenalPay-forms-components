@@ -35,5 +35,3 @@ let Card = React.createClass({
 });
 
 export default Card;
-
-ReactDOM.render(<Card getDataUrl="data.json" />, document.getElementById('card-form'));
