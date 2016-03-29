@@ -67,10 +67,10 @@ let PhoneInput = React.createClass({
         });
 
         $(this._infoToggler).on('click', function () {
-            utils.showInfoTooltip( $infoTooltip, 'info', utils.messageTexts.availableOperators );
+            utils.showInfoTooltip($infoTooltip, 'info', utils.messageTexts.availableOperators);
 
-            if ( !$infoTooltip.hasClass( '_help' ) ) {
-                $phoneInput.trigger( 'focus' );
+            if (!$infoTooltip.hasClass('_help')) {
+                $phoneInput.trigger('focus');
             }
         })
     },
