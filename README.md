@@ -14,7 +14,7 @@
 После того, как вы установили весь этот инструментарий, выполните следующие команды:
 
 ```sh
-$ git clone ssh://git@git.arsenalmedia.ru:10232/savelevcorr/arsenalpay-from-components.git
+$ git clone https://github.com/andreysavelev/arsenalPay-forms-components.git
 $ cd arsenalpay-from-components
 $ npm install
 $ bower install
@@ -54,7 +54,7 @@ $ npm run build
 
 #### Создание новой формы из готовых компонентов
 
-В этом пимере описано как создать форму оплаты с помощью карты.
+В этом примере описано как создать форму оплаты с помощью карты.
 
 ```sh
 $ cd src/js/
@@ -116,16 +116,6 @@ ReactDOM.render(<Card getDataUrl="data.json" />, document.getElementById('card-f
 - http://localhos/ - все формы на одной странице ввиде протопипа виджета
 - http://localhos/phone.html - форма оплаты через телефон.
 - http://localhos/wallet.html - форма оплаты через электронные кошельки.
-
-#### Деплой на тестовый сервер
-
-Весь собранный проект находится в директории __/dist/__, чтобы залить это добро на тестовый сервер нужно выполнить:
-```sh
-$ cd /dist/
-$ scp ./* root@192.168.0.93:/var/www/html/tests/pbp/
-```
-
-После этого нужно пройти по адресу http://109.126.14.178/tests/pbp/ и далее по той же логике, что и при локальной разработке.
 
 #### Валидация введенных значений
 У каждого компонента ввода (основан на теге input) присутсвует приватный метод _validate, который вызывается при событии
