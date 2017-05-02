@@ -6,7 +6,7 @@ import InfoTooltip from './info-tooltip.jsx';
 import utils from '../utils/utils';
 import _ from 'lodash';
 
-let inputMask = require('../../../bower_components/jquery.inputmask/dist/jquery.inputmask.bundle');
+let inputMask = require('../../../bower_components/Inputmask/dist/jquery.inputmask.bundle');
 
 let PhoneInput = React.createClass({
     getInitialState() {
@@ -22,6 +22,7 @@ let PhoneInput = React.createClass({
 
     componentWillUnmount() {
         this.props.detachFromForm(this);
+
     },
 
     render() {
