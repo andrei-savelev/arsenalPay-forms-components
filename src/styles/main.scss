@@ -99,6 +99,9 @@ img:after {
   color: rgb(100, 100, 100);
 }
 
+.demo-title {
+  text-align: center;
+}
 
 /* Common styles */
 .ap-ui {
@@ -144,7 +147,7 @@ img:after {
 
      &__item {
        display: inline-block;
-       margin-right: -1px;
+       margin-right: -2px;
        list-style: none;
        border: 1px solid black;
 
