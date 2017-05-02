@@ -23,6 +23,7 @@
     "ap-ui-sass": "ap-ui#*"
   },
   "dependencies": {
-    "normalize.sass": "^3.0.0"
+    "normalize.sass": "^3.0.0",
+    "Inputmask": "jquery.inputmask#^3.3.5"
   }
 }
